@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="presentation">
+            <h2>{{ anime.title }}</h2>
+            <div><img src="{{ anime.image }}" alt="{{ anime.title }}" /></div>
+            <div>date de parution : {{ anime.published }}</div>
+            <div>synopsis : {{ anime.content }}</div>
+            <div>type :{{ anime.type }}</div>
+            <div>genre : {{ anime.kind | join(', ') }}</div>
+            <div>status : {{ anime.status }}</div>
+            <div>auteur : {{ anime.author }}</div>
+            <div>titre alternatif : {{ anime.alternativeTitle }}</div>
+            {# <div>studio d'animation : {{ anime.studio }}</div> #}
+            <div>pays : {{ anime.country }}</div>
+            {# <div>licencié : {{ anime.licence }}</div>             #}
+        </div>
+
+    </div>
+
+{% endblock %}

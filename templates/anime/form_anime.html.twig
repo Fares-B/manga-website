@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% form_theme formAnime 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    <h3>New Anime</h3>
+    
+    {{ form_start(formAnime) }}
+
+        {{ form_row(formAnime.title, {'attr': {'placeholder': "Nom complet"}}) }}
+        {{ form_row(formAnime.content, {'attr': {'placeholder': "Synopsis"}}) }}
+        {{ form_row(formAnime.published, {'attr': {'placeholder': "Date de parution"}}) }}
+        {{ form_row(formAnime.type, {'attr': {'placeholder': "le type, Shonen, shojo, seinen, kodomo"}}) }}
+        {{ form_row(formAnime.kind, {'attr': {'placeholder': "les genres, aventure, combat..."}}) }}
+        {{ form_row(formAnime.status, {'attr': {'placeholder': "Soit : en cours | abandonné | fini" }}) }}
+        {{ form_row(formAnime.alternative_title, {'attr': {'placeholder': "titre alternatif"}}) }}
+        {{ form_row(formAnime.author, {'attr': {'placeholder': "Nom du mangaka"}}) }}
+        {{ form_row(formAnime.country, {'attr': {'placeholder': "Pays d'origine de l'oeuvre"}}) }}
+        {{ form_row(formAnime.image, {'attr': {'placeholder': "url de l'image taille 300x150"}}) }}
+        
+
+        <button type="submit" class="btn btn-primary">
+            {% if editMode %}
+                Ajouter un nouveau anime
+            {% else %}
+                Enregistrer les modification
+            {% endif %}
+        </button>
+
+    {{ form_end(formAnime) }}
+
+{% endblock %}

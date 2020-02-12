@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {# {{ title }} #}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="presentation">
+            <h2>
+                {# <span>{{ title }} </span> #}
+                <span>{{ episode.format }} </span>
+                <span>{{ episode.episode }} </span>
+                <span>{{ episode.voice }} </span>
+                <span>Saison </span>
+                <span>{{ episode.season }}</span>
+            </h2>
+            <div>
+                <ul>
+                    {% for url in episode.video %}
+                        <li>{{ url }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
