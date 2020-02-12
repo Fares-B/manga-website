@@ -31,20 +31,12 @@ class Anime
      */
     private $published;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+
 
     /**
      * @ORM\Column(type="array")
      */
     private $kind = [];
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -72,9 +64,21 @@ class Anime
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="animes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="animes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -117,17 +121,6 @@ class Anime
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getKind(): ?array
     {
@@ -137,18 +130,6 @@ class Anime
     public function setKind(array $kind): self
     {
         $this->kind = $kind;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -221,6 +202,30 @@ class Anime
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setType(?Type $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
