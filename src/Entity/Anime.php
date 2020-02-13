@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AnimeRepository")
  */
@@ -20,31 +22,63 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Your country must be at least {{ limit }} characters long",
+     *      maxMessage = "Your country cannot be longer than {{ limit }} characters"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage = "Your content must be at least {{ limit }} characters long"
+     * )
      */
     private $content;
     
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Range(
+     *      min = 1980,
+     *      max = 2020,
+     *      minMessage = "You must be at least {{ limit }} year tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }} year to enter"
+     * )
      */
     private $published;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "Your alternative title cannot be longer than {{ limit }} characters"
+     * )
      */
     private $alternative_title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 255,
+     *      minMessage = "Your author name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your author name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $author;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Your country must be at least {{ limit }} characters long",
+     *      maxMessage = "Your country cannot be longer than {{ limit }} characters"
+     * )
      */
     private $country;
 
@@ -55,28 +89,36 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Url(
+     *      message = "The image url '{{ value }}' is not a valid url",
+     * )
      */
     private $image;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max = 255)
      */
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $status;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Kind", inversedBy="animes")
+     * @Assert\NotBlank()
      */
     private $kind;
 
