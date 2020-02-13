@@ -47,7 +47,7 @@ class Episode
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
@@ -143,6 +143,16 @@ class Episode
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getFormatSlug(): ?string
+    {
+        return $this->getAnime()->getTitle() . '-' . 
+            (($this->getSeason() != 1) ? '-saison-' . $this->getSeason() : '') . '-' .
+            $this->getFormat() . '-' .
+            $this->getEpisode() . '-' .
+            $this->getVoice()
+        ;
     }
 
     public function getAnime(): ?Anime
