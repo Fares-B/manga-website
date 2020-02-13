@@ -6,5 +6,14 @@
 
     <h3>New Anime</h3>
     
+    {% form_start(formEpisode) %}
 
+        {% form_row(formEpisode.voice) %}
+        {% form_row(formEpisode.season) %}
+        {% form_row(formEpisode.episode) %}
+        {# create loop for add video url in iframe balise #}
+            {# {% form_row(formEpisode.video) %} #}
+        {# end loop #}
+    
+    {% form_end(formEpisode) %}
 {% endblock %}
