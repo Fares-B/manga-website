@@ -15,11 +15,11 @@
     
     {{ form_start(formEpisode) }}
 
-        {# {{ form_row() }} balise select pour la liste des mangas grace à l'etity Anime #}
-        {{ form_row(formEpisode.voice, {'attr': {'placeholder': "vf ou vostfr ?"}}) }}
-        {{ form_row(formEpisode.season) }}
-        {{ form_row(formEpisode.episode) }}
-        {{ form_row(formEpisode.format) }}
+        {{ form_row(formEpisode.anime) }}
+        {{ form_row(formEpisode.voice, {'attr': {'placeholder': "Vostfr ou vf"}}) }}
+        {{ form_row(formEpisode.season, {'attr': {'placeholder': "Saison"}}) }}
+        {{ form_row(formEpisode.episode, {'attr': {'placeholder': "Episode"}}) }}
+        {{ form_row(formEpisode.format, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
         
         <div class="video">
             <div class="form-group">

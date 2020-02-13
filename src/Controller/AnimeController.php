@@ -84,23 +84,39 @@ class AnimeController extends AbstractController
 
     /**
      * @Route("/anime/episode/new", name="episode_create")
-     * @Route("/anime/episode/{slug}/edit", name="episode_edit")
+     * @Route("/show/{slug}/edit", name="episode_edit")
      */
     public function formEpisode(Episode $episode = null, Request $request)
     {
         if (!$episode) {
             $episode = new Episode();
         }
+
+        $repo = $this->getDoctrine()->getRepository(Anime::class);
+
+        $animes = $repo->findAll();
+
+        // $selectAnimes = [];
+        // foreach ($animes as $value) {
+        //     $selectAnimes[] = [
+        //         'id' => $value->getId(),
+        //         'title' => $value->getTitle()
+        //     ];
+        // }
         
         $form = $this->createForm(EpisodeType::class, $episode);
 
         $form->handleRequest($request);
 
+        dump($episode);
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$episode->getId()) {
+                $slugify = new Slugify();
+
                 $episode->setCreatedAt(new \DateTime);
-                $url_slug = "anime->getTitle()" + "saison";
-                $anime->setSlug($slugify->slugify($url_slug));
+                $slug = $slugify->slugify($episode->getFormatSlug());
+                $episode->setSlug($slug);
+
             }
             $entityManager = $this->getDoctrine()->getManager();
 
@@ -111,7 +127,9 @@ class AnimeController extends AbstractController
             return $this->redirectToRoute('episode_show', ['slug' => $episode->getSlug()]);
         }
         return $this->render('anime/form_episode.html.twig', [
+            'title' => 'Episode',
             'formEpisode' => $form->createView(),
+            'animes' => $animes,
             'editMode' => $episode->getId() === null
         ]);
     }
