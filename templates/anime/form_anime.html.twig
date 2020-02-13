@@ -2,6 +2,14 @@
 
 {% form_theme formAnime 'bootstrap_4_layout.html.twig' %}
 
+{% block title %}
+    {% if editMode %}
+        Add Anime
+    {% else %}
+        {{ "Edit " ~ title }}
+    {% endif %}
+{% endblock %}
+
 {% block body %}
 
     <h3>New Anime</h3>

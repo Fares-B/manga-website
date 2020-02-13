@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
-
+{% block title %}
+    {{ anime.title }}
+{% endblock %}
 {% block body %}
 
     <div class="row">
@@ -9,8 +11,8 @@
             <div><img src="{{ anime.image }}" alt="{{ anime.title }}" /></div>
             <div>date de parution : {{ anime.published }}</div>
             <div>synopsis : {{ anime.content }}</div>
-            <div>type :{{ anime.type.name }}</div>
-            <div>
+            <div>type : {{ anime.type.name }}</div>
+            <div>genre : 
                 {% for kind in anime.kind %}
                     {{ kind.name }}{% if not loop.last %}, {% endif %}
                 {% endfor %}

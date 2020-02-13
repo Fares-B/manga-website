@@ -76,6 +76,7 @@ class AnimeController extends AbstractController
         }
 
         return $this->render('anime/form_anime.html.twig', [
+            'title' => $anime->getTitle(),
             'formAnime' => $form->createView(),
             'editMode' => $anime->getId() === null
         ]);
