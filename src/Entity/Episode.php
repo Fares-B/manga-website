@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EpisodeRepository")
  */
@@ -18,11 +20,19 @@ class Episode
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Range(
+     *      min = 1,
+     *      minMessage = "You must be at least {{ limit }} season tall to enter"
+     * )
      */
     private $season;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Range(
+     *      min = 0,
+     *      minMessage = "You must be at least {{ limit }} season tall to enter"
+     * )
      */
     private $episode;
 
@@ -38,24 +48,28 @@ class Episode
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max = 255)
      */
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Anime", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $anime;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Voice", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $voice;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Format", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $format;
 
@@ -148,16 +162,6 @@ class Episode
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->getAnime()->getTitle() . ' ' . 
-            (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
-            // $this->getFormat() . ' ' .
-            $this->getEpisode() . ' ' 
-            // $this->getVoice()
-        ;
-    }
-
     public function getFormat(): ?Format
     {
         return $this->format;
@@ -168,5 +172,15 @@ class Episode
         $this->format = $format;
 
         return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->getAnime()->getTitle() . ' ' . 
+            (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
+            $this->getFormat()->getName() . ' ' .
+            $this->getEpisode() . ' ' .
+            $this->getVoice()->getName()
+        ;
     }
 }

@@ -6,7 +6,7 @@
     {% if editMode %}
         New Episode
     {% else %}
-        {{ "Edit " ~ episode.anime.title ~ " " ~ episode.format ~ " " ~ episode.episode}}
+        {{ "Edit " ~ episode.anime.title ~ " " ~ episode.format.name ~ " " ~ episode.episode}}
     {% endif %}
 {% endblock %}
 
@@ -15,10 +15,10 @@
     {{ form_start(formEpisode) }}
 
         {{ form_row(formEpisode.anime) }}
-        {{ form_row(formEpisode.voice, {'attr': {'placeholder': "Vostfr ou vf"}}) }}
+        {{ form_row(formEpisode.voice) }}
         {{ form_row(formEpisode.season, {'attr': {'placeholder': "1"}}) }}
         {{ form_row(formEpisode.episode, {'attr': {'placeholder': "1"}}) }}
-        {{ form_row(formEpisode.format, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
+        {{ form_row(formEpisode.format) }}
         {{ form_row(formEpisode.video, {'attr': {'placeholder': "Plusieurs url possible, séparer les par une virgule et un espace (, ) Exemple : \ngoogle.fr, facebook.com"}}) }}
         
 

@@ -102,11 +102,12 @@ class AnimeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$episode->getId()) {
-                $slugify = new Slugify();
-
-                $episode->setSlug($slugify->slugify($episode->getTitle()));
-                $episode->setCreatedAt(new \DateTime);
+                $episode->setCreatedAt(new \DateTime); // don't change the date
             }
+
+            $slugify = new Slugify();
+
+            $episode->setSlug($slugify->slugify($episode->getTitle()));
 
             $entityManager = $this->getDoctrine()->getManager();
 

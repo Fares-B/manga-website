@@ -9,10 +9,10 @@
 
         <div class="presentation">
             <h2>
-                {# <span>{{ title }} </span> #}
-                <span>{{ episode.format }} </span>
+                <h4>{{ title }} | <a href="{{ path('episode_edit', {slug: episode.slug}) }}">Edit</a></h4>
+                <span>{{ episode.format.name }} </span>
                 <span>{{ episode.episode }} </span>
-                <span>{{ episode.voice }} </span>
+                <span>{{ episode.voice.name }} </span>
                 <span>Saison </span>
                 <span>{{ episode.season }}</span>
             </h2>
