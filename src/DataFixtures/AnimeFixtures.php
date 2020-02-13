@@ -68,7 +68,10 @@ class AnimeFixtures extends Fixture
             $manager->persist($voice);
         }
 
-        $fo = ["Vostfr","VF"];
+
+
+
+        $fo = ["Episode","Film","OAV","Spécial","Chapitre","Opening","Ending","PV"];
         foreach ($fo as $value) {
             $format = new Format();
 
