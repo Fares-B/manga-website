@@ -27,11 +27,6 @@ class Episode
     private $episode;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $format;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $video;
@@ -48,6 +43,7 @@ class Episode
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Anime", inversedBy="episodes")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $anime;
 
@@ -56,6 +52,12 @@ class Episode
      * @ORM\JoinColumn(nullable=false)
      */
     private $voice;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Format", inversedBy="episodes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $format;
 
     public function getId(): ?int
     {
@@ -82,18 +84,6 @@ class Episode
     public function setEpisode(int $episode): self
     {
         $this->episode = $episode;
-
-        return $this;
-    }
-
-    public function getFormat(): ?string
-    {
-        return $this->format;
-    }
-
-    public function setFormat(string $format): self
-    {
-        $this->format = $format;
 
         return $this;
     }
@@ -162,9 +152,21 @@ class Episode
     {
         return $this->getAnime()->getTitle() . ' ' . 
             (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
-            $this->getFormat() . ' ' .
+            // $this->getFormat() . ' ' .
             $this->getEpisode() . ' ' 
             // $this->getVoice()
         ;
+    }
+
+    public function getFormat(): ?Format
+    {
+        return $this->format;
+    }
+
+    public function setFormat(?Format $format): self
+    {
+        $this->format = $format;
+
+        return $this;
     }
 }

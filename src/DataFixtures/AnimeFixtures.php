@@ -14,6 +14,7 @@ use App\Entity\Status;
 
 use App\Entity\Episode;
 use App\Entity\Voice;
+use App\Entity\Format;
 
 class AnimeFixtures extends Fixture
 {
@@ -66,6 +67,17 @@ class AnimeFixtures extends Fixture
 
             $manager->persist($voice);
         }
+
+        $fo = ["Vostfr","VF"];
+        foreach ($fo as $value) {
+            $format = new Format();
+
+            $format->setName($value);
+
+            $manager->persist($format);
+        }
+
+
         // for ($i=1; $i < mt_rand(3, 8); $i++) { 
         //     $anime = new Anime();
 

@@ -118,6 +118,7 @@ class Anime
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Kind", inversedBy="animes")
+     * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $kind;
