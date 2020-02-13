@@ -26,7 +26,6 @@ class AnimeController extends AbstractController
     {
         $episodes = $repo->findAll();
         return $this->render('anime/home.html.twig', [
-            // use this for fixtures of Episode data base
             'title' => 'Jaken Anime',
             'episodes' => $episodes
         ]);
@@ -99,7 +98,8 @@ class AnimeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$episode->getId()) {
                 $episode->setCreatedAt(new \DateTime);
-                $episode->setSlug("hunter-x-hunter-saison-1-episode-5-vostfr");
+                $url_slug = "anime->getTitle()" + "saison";
+                $anime->setSlug($slugify->slugify($url_slug));
             }
             $entityManager = $this->getDoctrine()->getManager();
 
