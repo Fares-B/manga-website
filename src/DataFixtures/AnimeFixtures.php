@@ -8,10 +8,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 // use Doctrine\ORM\EntityManager;
 
 use App\Entity\Anime;
-use App\Entity\Episode;
 use App\Entity\Kind;
 use App\Entity\Type;
 use App\Entity\Status;
+
+use App\Entity\Episode;
+use App\Entity\Voice;
 
 class AnimeFixtures extends Fixture
 {
@@ -45,7 +47,7 @@ class AnimeFixtures extends Fixture
             $manager->persist($type);
         }
 
-        // Type
+        // Status
         $sta = ["En cours","Fini","Abandonné"];
         foreach ($sta as $value) {
             $status = new Status();
@@ -54,6 +56,15 @@ class AnimeFixtures extends Fixture
                  ->setCreatedAt(new \DateTime());
 
             $manager->persist($status);
+        }
+
+        $voi = ["Vostfr","VF"];
+        foreach ($voi as $value) {
+            $voice = new Voice();
+
+            $voice->setName($value);
+
+            $manager->persist($voice);
         }
         // for ($i=1; $i < mt_rand(3, 8); $i++) { 
         //     $anime = new Anime();

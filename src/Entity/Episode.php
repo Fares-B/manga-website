@@ -17,11 +17,6 @@ class Episode
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $voice;
-
-    /**
      * @ORM\Column(type="smallint")
      */
     private $season;
@@ -56,21 +51,15 @@ class Episode
      */
     private $anime;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Voice", inversedBy="episodes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $voice;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getVoice(): ?string
-    {
-        return $this->voice;
-    }
-
-    public function setVoice(string $voice): self
-    {
-        $this->voice = $voice;
-
-        return $this;
     }
 
     public function getSeason(): ?int
@@ -157,13 +146,25 @@ class Episode
         return $this;
     }
 
+    public function getVoice(): ?Voice
+    {
+        return $this->voice;
+    }
+
+    public function setVoice(?Voice $voice): self
+    {
+        $this->voice = $voice;
+
+        return $this;
+    }
+
     public function getTitle(): ?string
     {
         return $this->getAnime()->getTitle() . ' ' . 
             (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
             $this->getFormat() . ' ' .
-            $this->getEpisode() . ' ' .
-            $this->getVoice()
+            $this->getEpisode() . ' ' 
+            // $this->getVoice()
         ;
     }
 }
