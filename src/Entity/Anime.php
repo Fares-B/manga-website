@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,13 +32,6 @@ class Anime
      * @ORM\Column(type="smallint")
      */
     private $published;
-
-
-
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $kind = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -80,6 +75,16 @@ class Anime
      */
     private $status;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Kind", inversedBy="animes")
+     */
+    private $kind;
+
+    public function __construct()
+    {
+        $this->kind = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,19 +122,6 @@ class Anime
     public function setPublished(int $published): self
     {
         $this->published = $published;
-
-        return $this;
-    }
-
-
-    public function getKind(): ?array
-    {
-        return $this->kind;
-    }
-
-    public function setKind(array $kind): self
-    {
-        $this->kind = $kind;
 
         return $this;
     }
@@ -226,6 +218,32 @@ class Anime
     public function setStatus(?Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Kind[]
+     */
+    public function getKind(): Collection
+    {
+        return $this->kind;
+    }
+
+    public function addKind(Kind $kind): self
+    {
+        if (!$this->kind->contains($kind)) {
+            $this->kind[] = $kind;
+        }
+
+        return $this;
+    }
+
+    public function removeKind(Kind $kind): self
+    {
+        if ($this->kind->contains($kind)) {
+            $this->kind->removeElement($kind);
+        }
 
         return $this;
     }
