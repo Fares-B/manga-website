@@ -19,25 +19,8 @@
         {{ form_row(formEpisode.season, {'attr': {'placeholder': "Saison"}}) }}
         {{ form_row(formEpisode.episode, {'attr': {'placeholder': "Episode"}}) }}
         {{ form_row(formEpisode.format, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
-<hr>
-        {# {{ form_row(formEpisode.video) }} #}
-
-        {# {% for i in 1..5 %} #}
-            {{ form_widget(formEpisode.video, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
-        {# {% endfor %} #}
+        {{ form_row(formEpisode.video, {'attr': {'placeholder': "Plusieurs url possible, séparer les par une virgule et un espace (, ) Exemple : \ngoogle.fr, facebook.com"}}) }}
         
-        <hr>
-        <div class="video">
-            <div class="form-group">
-                <label>Param vidéo : <info id="info_url" class="text-success">Vous avez 1 emplacement d'URL.</info></label>
-                <button id="moins_url" class="btn btn-primary">-</button>
-                <button id="plus_url" class="btn btn-primary">+</button>
-            </div>                   
-            <div id="url">
-                <label for="url_video">Liens des vidéos : </label>
-                <input class="form-control" type="text" id="url_video" name="url_video" placeholder="url" required />
-            </div>
-        </div>
 
         <button type="submit" class="btn btn-primary">
             {% if editMode %}
@@ -51,86 +34,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $( () => {
-            $('#moins_url').attr('disabled','true'); // desactivation du bouton moins
 
-            $('#plus_url').click((e) => {
-                e.preventDefault();
-
-                modifier_nombre_url($('#url'), $('#plus_url'), $('#info_url'), true);
-            });
-
-            $('#moins_url').click((e) => {
-                e.preventDefault();
-
-                modifier_nombre_url($('#url'), $('#plus_url'), $('#info_url'), false);
-            });
-
-            function modifier_nombre_url($url, $this, $info, operation) {
-
-                var cnt = $url.children("input").length;
-                if (operation) {
-                    var $url_input = $("<input />", {
-                        "id": "url_video" + cnt,
-                        "class" : "form-control",
-                        "name": "video[]",
-                        "placeholder": "url " + (cnt + 1)
-                    });
-                    $url_input.focusout(() => {
-                        verification_url($url.children("input"), $info);
-                    });
-                    $url.append($url_input);
-                } else {
-                    $url.children("input:last").remove();
-                }
-                cnt = $url.children("input").length;
-                
-                switch(cnt) {
-                    case 1:
-                        $('#moins_url').attr('disabled','true');
-                        $info.css('color', 'black').html("Vous avez 1 emplacement d'URL.");
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                        $('#moins_url').removeAttr("disabled");;
-                        $('#plus_url').removeAttr("disabled");;
-                        break;
-                    case 5:
-                        $('#plus_url').attr('disabled','true');
-                        $('#info_url')
-                        break;
-                }
-            }
-
-            function verification_url($urls, $alert) {
-
-                const len_url = $urls.length;
-                var index = 0;
-                var compteur = 0;
-                while(index < $urls.length) {
-                    if($urls[index].value != "") {
-                        compteur++;
-                    }
-                    index++;
-                }
-
-                $alert.css('color', 'black');
-                $alert.html((compteur > 1) ? `Vous avez ajouté ${compteur} emplacements d'URL differentes.` : "Vous avez 1 emplacement d'URL.");
-
-                var url_tab = [];
-                for (var i = 0; i < len_url; i++) {
-                    const $url_val = $urls[i];
-                    
-                    if ($url_val.value != "" && url_tab.indexOf($url_val.value) != -1) {
-                        $alert.css('color', 'red');
-                        $alert.html("Attention 2 ou plus url identiques");
-                    } else {
-                        url_tab.push($url_val.value);
-                    }
-                }
-            }
-        });
-    </script>
 {% endblock %}

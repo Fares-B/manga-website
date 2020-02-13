@@ -37,9 +37,9 @@ class Episode
     private $format;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="text")
      */
-    private $video = [];
+    private $video;
 
     /**
      * @ORM\Column(type="datetime")
@@ -109,12 +109,12 @@ class Episode
         return $this;
     }
 
-    public function getVideo(): ?array
+    public function getVideo(): ?string
     {
         return $this->video;
     }
 
-    public function setVideo(array $video): self
+    public function setVideo(string $video): self
     {
         $this->video = $video;
 
