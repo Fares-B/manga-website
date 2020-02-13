@@ -94,7 +94,7 @@ class AnimeController extends AbstractController
 
         $repo = $this->getDoctrine()->getRepository(Anime::class);
 
-        $animes = $repo->findBy(['createdAt' => 'DESC']);
+        $animes = $repo->findAll();
         
         $form = $this->createForm(EpisodeType::class, $episode);
 
