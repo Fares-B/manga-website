@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <style>
+        .image-mini {
+            width: 200px;
+            height: 60px;
+        }
+    </style>
+{% endblock %}
+
 {% block title %}
     {{ title }}
 {% endblock %}
@@ -8,18 +17,18 @@
 
     <section>
         <h3>Anime de la semaine</h3>
-
+        <hr>
         {% for episode in episodes %}
 
             <div class="content">
             
                 <a href="{{ path('episode_show', {slug: episode.slug}) }}">
-                    <img src="{{ title }}" alt="{{ title }}" />
+                    <img class="image-mini" src="{{ episode.anime.image }}" alt="{{ episode.anime.title }}" />
                 </a>
                 <span>
                     <span>
                         <a href="{{ path('episode_show', {slug: episode.slug}) }}">
-                            <b>{{ title }} {{ episode.format }} {{ episode.episode }} {{ episode.voice }} saison {{ episode.season }}</b>
+                            <b>{{ episode.anime.title }} {{ episode.format.name }} {{ episode.episode }} {{ episode.voice.name }} saison {{ episode.season }}</b>
                         </a>
                     </span>
                     <span class="info">
@@ -29,6 +38,7 @@
                     </span>
                 </span>
             </div>
+            <hr>
 
         {% endfor %}
 
