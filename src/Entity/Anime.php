@@ -122,9 +122,15 @@ class Anime
      */
     private $kind;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Episode", mappedBy="anime")
+     */
+    private $episodes;
+
     public function __construct()
     {
         $this->kind = new ArrayCollection();
+        $this->episodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -285,6 +291,37 @@ class Anime
     {
         if ($this->kind->contains($kind)) {
             $this->kind->removeElement($kind);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Episode[]
+     */
+    public function getEpisodes(): Collection
+    {
+        return $this->episodes;
+    }
+
+    public function addEpisode(Episode $episode): self
+    {
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes[] = $episode;
+            $episode->setAnime($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEpisode(Episode $episode): self
+    {
+        if ($this->episodes->contains($episode)) {
+            $this->episodes->removeElement($episode);
+            // set the owning side to null (unless already changed)
+            if ($episode->getAnime() === $this) {
+                $episode->setAnime(null);
+            }
         }
 
         return $this;

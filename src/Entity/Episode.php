@@ -51,6 +51,11 @@ class Episode
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anime", inversedBy="episodes")
+     */
+    private $anime;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,18 @@ class Episode
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAnime(): ?Anime
+    {
+        return $this->anime;
+    }
+
+    public function setAnime(?Anime $anime): self
+    {
+        $this->anime = $anime;
 
         return $this;
     }
