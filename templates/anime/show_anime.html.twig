@@ -9,9 +9,14 @@
             <div><img src="{{ anime.image }}" alt="{{ anime.title }}" /></div>
             <div>date de parution : {{ anime.published }}</div>
             <div>synopsis : {{ anime.content }}</div>
-            <div>type :{{ anime.type }}</div>
-            <div>genre : {{ anime.kind | join(', ') }}</div>
-            <div>status : {{ anime.status }}</div>
+            <div>type :{{ anime.type.name }}</div>
+            <div>
+                {% for kind in anime.kind %}
+                    {{ kind.name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            {# <div>genre : {{ anime.kind.name | join(', ') }}</div> #}
+            <div>status : {{ anime.status.name }}</div>
             <div>auteur : {{ anime.author }}</div>
             <div>titre alternatif : {{ anime.alternativeTitle }}</div>
             {# <div>studio d'animation : {{ anime.studio }}</div> #}
