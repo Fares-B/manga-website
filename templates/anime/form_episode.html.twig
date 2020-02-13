@@ -4,14 +4,13 @@
 
 {% block title %}
     {% if editMode %}
-        Add Episode
+        New Episode
     {% else %}
-        {{ "Edit " ~ formEpisode.getAnime() }}
+        {{ "Edit " ~ episode.anime.title ~ " " ~ episode.format ~ " " ~ episode.episode}}
     {% endif %}
 {% endblock %}
 
 {% block body %}
-    <h3> </h3>
     
     {{ form_start(formEpisode) }}
 
@@ -20,7 +19,14 @@
         {{ form_row(formEpisode.season, {'attr': {'placeholder': "Saison"}}) }}
         {{ form_row(formEpisode.episode, {'attr': {'placeholder': "Episode"}}) }}
         {{ form_row(formEpisode.format, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
+<hr>
+        {# {{ form_row(formEpisode.video) }} #}
+
+        {# {% for i in 1..5 %} #}
+            {{ form_widget(formEpisode.video, {'attr': {'placeholder': "Episode, Film, OAV..."}}) }}
+        {# {% endfor %} #}
         
+        <hr>
         <div class="video">
             <div class="form-group">
                 <label>Param vidéo : <info id="info_url" class="text-success">Vous avez 1 emplacement d'URL.</info></label>

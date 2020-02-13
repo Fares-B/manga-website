@@ -84,7 +84,7 @@ class AnimeController extends AbstractController
 
     /**
      * @Route("/anime/episode/new", name="episode_create")
-     * @Route("/show/{slug}/edit", name="episode_edit")
+     * @Route("/anime/episode/{slug}/edit", name="episode_edit")
      */
     public function formEpisode(Episode $episode = null, Request $request)
     {
@@ -95,29 +95,19 @@ class AnimeController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Anime::class);
 
         $animes = $repo->findAll();
-
-        // $selectAnimes = [];
-        // foreach ($animes as $value) {
-        //     $selectAnimes[] = [
-        //         'id' => $value->getId(),
-        //         'title' => $value->getTitle()
-        //     ];
-        // }
         
         $form = $this->createForm(EpisodeType::class, $episode);
 
         $form->handleRequest($request);
 
-        dump($episode);
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$episode->getId()) {
                 $slugify = new Slugify();
 
+                $episode->setSlug($slugify->slugify($episode->getTitle()));
                 $episode->setCreatedAt(new \DateTime);
-                $slug = $slugify->slugify($episode->getFormatSlug());
-                $episode->setSlug($slug);
-
             }
+
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($episode);
@@ -127,9 +117,8 @@ class AnimeController extends AbstractController
             return $this->redirectToRoute('episode_show', ['slug' => $episode->getSlug()]);
         }
         return $this->render('anime/form_episode.html.twig', [
-            'title' => 'Episode',
             'formEpisode' => $form->createView(),
-            'animes' => $animes,
+            'episode' => $episode,
             'editMode' => $episode->getId() === null
         ]);
     }
@@ -150,6 +139,7 @@ class AnimeController extends AbstractController
     public function showEpisode(Episode $episode)
     {
         return $this->render('anime/show_episode.html.twig', [
+            'title' => $episode->getTitle(),
             'episode' => $episode
         ]);
     }

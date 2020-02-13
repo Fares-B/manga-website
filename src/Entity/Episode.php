@@ -145,16 +145,6 @@ class Episode
         return $this;
     }
 
-    public function getFormatSlug(): ?string
-    {
-        return $this->getAnime()->getTitle() . '-' . 
-            (($this->getSeason() != 1) ? '-saison-' . $this->getSeason() : '') . '-' .
-            $this->getFormat() . '-' .
-            $this->getEpisode() . '-' .
-            $this->getVoice()
-        ;
-    }
-
     public function getAnime(): ?Anime
     {
         return $this->anime;
@@ -165,5 +155,15 @@ class Episode
         $this->anime = $anime;
 
         return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->getAnime()->getTitle() . ' ' . 
+            (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
+            $this->getFormat() . ' ' .
+            $this->getEpisode() . ' ' .
+            $this->getVoice()
+        ;
     }
 }

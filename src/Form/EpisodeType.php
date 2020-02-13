@@ -19,7 +19,7 @@ class EpisodeType extends AbstractType
             ->add('season')
             ->add('episode')
             ->add('format')
-            // ->add('video')
+            ->add('video')
             // ->add('createdAt')
             // ->add('slug')
             ->add('anime', EntityType::class, [
