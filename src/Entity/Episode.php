@@ -176,8 +176,8 @@ class Episode
 
     public function getTitle(): ?string
     {
-        return $this->getAnime()->getTitle() . ' ' . 
-            (($this->getSeason() != 1) ? ' saison ' . $this->getSeason() . ' ': '') .
+        return  
+            (($this->getSeason() != 1) ? ' Saison ' . $this->getSeason() . ' ': '') .
             $this->getFormat()->getName() . ' ' .
             $this->getEpisode() . ' ' .
             $this->getVoice()->getName()

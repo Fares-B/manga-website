@@ -107,7 +107,9 @@ class AnimeController extends AbstractController
 
             $slugify = new Slugify();
 
-            $episode->setSlug($slugify->slugify($episode->getTitle()));
+            $link = $episode->getAnime()->getTitle() . ' ' . $episode->getTitle();
+
+            $episode->setSlug($slugify->slugify($link));
 
             $entityManager = $this->getDoctrine()->getManager();
 
