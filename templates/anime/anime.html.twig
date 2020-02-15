@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme formAnime 'bootstrap_4_layout.html.twig' %}
+
 {% block title %}
     {{ title }}
 {% endblock %}
@@ -20,7 +22,7 @@
                         <div class="card-body text-center">
                             <a href="{{ path('anime_show', {slug: anime.slug}) }}"><h5 class="card-title">{{ anime.title }}</h5></a>
                             <p class="card-text">
-                                <span>nombre d'épisode count_episodes({{ anime.id }}, $pdo)</span>
+                                <span>nombre d'épisode {{ anime.episodes.count }}</span><br>
                                 {# <span>première parution en {{ anime.createdAt | date('Y') }} </span> #}
                                 <span>Date de première parution {{ anime.published }}</span>
                             </p>
