@@ -8,23 +8,66 @@
     <div class="row">
 
         <div class="presentation">
-            <h2>
-                <h4>{{ title }} | <a href="{{ path('episode_edit', {slug: episode.slug}) }}">Edit</a></h4>
-                <span>{{ episode.format.name }} </span>
-                <span>{{ episode.episode }} </span>
-                <span>{{ episode.voice.name }} </span>
-                <span>Saison </span>
-                <span>{{ episode.season }}</span>
-            </h2>
-            <div>
-                <ul>
-                    {% for url in episode.video %}
-                        <li>{{ url }}</li>
-                    {% endfor %}
-                </ul>
+
+            <div class="row">
+                <div class="col-9">
+                    <h4>
+                        <a href="{{ path('anime_show', {slug: episode.getAnime.slug}) }}"/>
+                            {{ episode.getAnime.title }} {{ title }} 
+                        </a>
+                    </h4>
+                </div>
+                <div class="row col-3">
+                    <div class="col">
+                        <a href="{{ path('episode_edit', {slug: episode.slug}) }}">Edit</a>
+                    </div>
+                    <div class="col">
+                        <a href="#delete">Delete</a>
+                    </div>
+                </div>
             </div>
 
+            <div>
+                <div class="form-group">
+                    <select class="form-control episodes_anime" name="episodes_anime">
+                        {% for item in episode.getAnime.getEpisodes %}
+                            {% if item.getSlug == episode.getSlug %}
+                                <option class=" bg-success text-white" selected>{{ episode.getTitle }}</option>
+                            {% else %}
+                                <option value="{{ path('episode_show', {slug: item.getSlug}) }}">{{ item.getTitle }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <b>liens des episodes</b>
+                    <ul>
+                        {% set links = episode.video | split(', ') %}
+                        {% for link in links %}
+                            <li>{{ link }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    // return the current path
+    const getPath = () => window.location.pathname;
+
+    $('.episodes_anime').change( function() {
+
+        const route = $(this).val();
+
+        const currentPath = getPath();
+        // "{{ path('episode_show', {slug: episode.slug}) | escape('js') }}";
+        if (route !== currentPath) {
+            window.location.href = route;
+        }
+    });
+    </script>
 {% endblock %}

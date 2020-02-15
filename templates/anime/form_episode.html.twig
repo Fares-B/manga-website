@@ -30,9 +30,17 @@
             {% endif %}
         </button>
     
-    {{ form_end(formEpisode) }}
+    {{ form_end(formEpisode) }} 
+    <p> {{ animeId }} </p>
 {% endblock %}
 
 {% block javascripts %}
-
+    <script>
+    $( ()=> {
+        const animeId = "{{ animeId}}";
+        if (animeId) {
+            $('#episode_anime').val(parseInt(animeId));
+        }
+    });
+    </script>
 {% endblock %}

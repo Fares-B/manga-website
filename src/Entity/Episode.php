@@ -177,7 +177,7 @@ class Episode
     public function getTitle(): ?string
     {
         return  
-            (($this->getSeason() != 1) ? ' Saison ' . $this->getSeason() . ' ': '') .
+            (($this->getSeason() != 1) ? 'Saison ' . $this->getSeason() . ' ': '') .
             $this->getFormat()->getName() . ' ' .
             $this->getEpisode() . ' ' .
             $this->getVoice()->getName()

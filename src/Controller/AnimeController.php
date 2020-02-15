@@ -83,11 +83,13 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * @Route("/anime/episode/new?{id}", name="episode_create")
      * @Route("/anime/episode/new", name="episode_create")
      * @Route("/anime/episode/{slug}/edit", name="episode_edit")
      */
     public function formEpisode(Episode $episode = null, Request $request)
     {
+
         if (!$episode) {
             $episode = new Episode();
         }
@@ -119,10 +121,15 @@ class AnimeController extends AbstractController
 
             return $this->redirectToRoute('episode_show', ['slug' => $episode->getSlug()]);
         }
+        $animeId = null;
+        if (isset($_GET['id'])) {
+            $animeId = (int)$_GET['id'];
+        }
         return $this->render('anime/form_episode.html.twig', [
             'formEpisode' => $form->createView(),
             'episode' => $episode,
-            'editMode' => $episode->getId() === null
+            'editMode' => $episode->getId() === null,
+            'animeId' => $animeId
         ]);
     }
 
