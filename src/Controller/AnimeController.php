@@ -57,7 +57,6 @@ class AnimeController extends AbstractController
 
         $form->handleRequest($request);
 
-        // dump($anime);
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$anime->getId()) {
                 $slugify = new Slugify();
