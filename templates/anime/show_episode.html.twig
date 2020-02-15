@@ -13,8 +13,9 @@
                 <div class="col-9">
                     <h4>
                         <a href="{{ path('anime_show', {slug: episode.getAnime.slug}) }}"/>
-                            {{ episode.getAnime.title }} {{ title }} 
+                            {{ episode.getAnime.title }}
                         </a>
+                        <span>{{ title }}</span>
                     </h4>
                 </div>
                 <div class="row col-3">
@@ -40,7 +41,7 @@
                     </select>
                 </div>
                 <div class="col-12">
-                    <b>liens des episodes</b>
+                    <b>liens des videos</b>
                     <ul>
                         {% set links = episode.video | split(', ') %}
                         {% for link in links %}

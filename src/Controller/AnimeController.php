@@ -20,6 +20,8 @@ class AnimeController extends AbstractController
 {
     
     /**
+     * Affiche l'a page d'accueil
+     * 
      * @Route("/", name="home")
      */
     public function home(EpisodeRepository $repo)
@@ -32,6 +34,8 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * Affiche une liste de tous les animé
+     * 
      * @Route("/anime", name="anime")
      */
     public function anime(AnimeRepository $repo)
@@ -44,6 +48,8 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * Formulaire pour créer un nouveau animé
+     * 
      * @Route("/anime/new", name="anime_create")
      * @Route("/anime/{slug}/edit", name="anime_edit")
      */
@@ -58,6 +64,7 @@ class AnimeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             if (!$anime->getId()) {
                 $slugify = new Slugify();
 
@@ -82,6 +89,8 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * Formulaire pour ajouter un nouveau episode
+     * 
      * @Route("/anime/episode/new?{id}", name="episode_create")
      * @Route("/anime/episode/new", name="episode_create")
      * @Route("/anime/episode/{slug}/edit", name="episode_edit")
@@ -133,6 +142,8 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * Affiche la page de presentation d'un animé
+     * 
      * @Route("/anime/{slug}", name="anime_show")
      */
     public function showAnime(Anime $anime) //param converter
@@ -143,6 +154,8 @@ class AnimeController extends AbstractController
     }
 
     /**
+     * Affiche l'episode rechercher
+     * 
      * @Route("/show/{slug}", name="episode_show")
      */
     public function showEpisode(Episode $episode)

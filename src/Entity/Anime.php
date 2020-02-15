@@ -327,4 +327,18 @@ class Anime
 
         return $this;
     }
+
+    /**
+     * Compte les episodes uniquement | et non les films, oav...
+     */
+    public function countEpisodes(): int
+    {
+        $count = 0;
+        foreach ($this->getEpisodes() as $episode) {
+            if ($episode->getFormat()->getName() === "Episode") {
+                $count = $count + 1;
+            }
+        }
+        return $count;
+    }
 }
