@@ -24,7 +24,8 @@
                                 {% set lastEpisode = anime.getEpisodes.last %}
                                 {# Si il existe alors affiche les infos #}
                                 {% if lastEpisode %}
-                                    <span>nombre d'épisode {{ anime.countEpisodes }}</span>
+                                    {# Compte le nombre d'episode grace à la fonction count + en parametre le format à compter #}
+                                    <span>nombre d'épisode {{ anime.count("Episode") }}</span>
                                     <br>
                                     <a href="{{ path('episode_show', {slug: lastEpisode.slug}) }}">{{ lastEpisode.getTitle }}</a>
                                     <br>

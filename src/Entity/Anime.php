@@ -331,11 +331,11 @@ class Anime
     /**
      * Compte les episodes uniquement | et non les films, oav...
      */
-    public function countEpisodes(): int
+    public function count(string $format): int
     {
         $count = 0;
         foreach ($this->getEpisodes() as $episode) {
-            if ($episode->getFormat()->getName() === "Episode") {
+            if ($episode->getFormat()->getName() === $format) {
                 $count = $count + 1;
             }
         }
