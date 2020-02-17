@@ -19,6 +19,20 @@ class EpisodeRepository extends ServiceEntityRepository
         parent::__construct($registry, Episode::class);
     }
 
+    /**
+     * @return Query
+     */
+    public function findAllQuery()
+    {
+        // if need select just title and date or any
+        // return $this->createQueryBuilder('e')
+        //     // ->select('e.title')
+        //     ->orderBy('e.createdAt', 'DESC')
+        //     ->getQuery()
+        // ;
+        return $this->findBy([/*critaire*/], ['createdAt' => 'DESC']);
+    }
+
     // /**
     //  * @return Episode[] Returns an array of Episode objects
     //  */

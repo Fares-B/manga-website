@@ -15,6 +15,7 @@ use App\Form\AnimeType;
 use App\Form\EpisodeType;
 
 use Cocur\Slugify\Slugify;
+use Knp\Component\Pager\PaginatorInterface;
 
 class AnimeController extends AbstractController
 {
@@ -24,12 +25,18 @@ class AnimeController extends AbstractController
      * 
      * @Route("/", name="home")
      */
-    public function home(EpisodeRepository $repo)
+    public function home(EpisodeRepository $repo, PaginatorInterface $paginator, Request $request)
     {
-        $episodes = $repo->findAll();
+        $episodes = $paginator->paginate(
+            $repo->findAllQuery(),
+            $request->query->getInt('page', 1), /*page number*/
+            2 // limit per page
+        );
+
+        // $episodes = $repo->findAll();
         return $this->render('anime/home.html.twig', [
             'title' => 'Jaken Anime',
-            'episodes' => $episodes
+            'episodes' => $episodes,
         ]);
     }
 
@@ -164,5 +171,14 @@ class AnimeController extends AbstractController
             'title' => $episode->getTitle(),
             'episode' => $episode
         ]);
+    }
+
+    /**
+     * Function for dev | add fixtures in db
+     * @Route("/fixtures", name="load_fixtures")
+     */
+    public function loadFixtures(TypeRepository $repo)
+    {
+        // 
     }
 }

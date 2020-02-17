@@ -42,6 +42,21 @@
 
         {% endfor %}
 
+        <div class="pagination">
+            {{ knp_pagination_render(episodes) }}
+        </div>
+
     </section>
 
+      <footer>
+        <ul>
+            <ol>Contenu du site</ol>
+            <li>
+                <span>{{ episodes.getTotalItemCount }}</span>
+                <span>Vidéos</span>
+            </li>
+        </ul>
+    </footer>
+
 {% endblock %}
+
