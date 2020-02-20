@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Form\AnimeType;
-use Cocur\Slugify\Slugify;
 use App\Entity\Anime\Anime;
 use App\Repository\Anime\AnimeRepository;
+
+use Cocur\Slugify\Slugify;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,18 +34,6 @@ class AnimeController extends AbstractController
         return $this->render('anime/anime.html.twig', [
             'title' => 'Anime Liste',
             'animes' => $animes // send all animes in database
-        ]);
-    }
-
-    /**
-     * Affiche la page de presentation d'un animé
-     * 
-     * @Route("/anime/{slug}", name="anime_show")
-     */
-    public function showAnime(Anime $anime) //param converter
-    {
-        return $this->render('anime/show_anime.html.twig', [
-            'anime' => $anime // send 1 anime
         ]);
     }
 
@@ -86,6 +75,18 @@ class AnimeController extends AbstractController
             'title' => $anime->getTitle(),
             'formAnime' => $form->createView(),
             'editMode' => $anime->getId() === null
+        ]);
+    }
+
+    /**
+     * Affiche la page de presentation d'un animé
+     * 
+     * @Route("/anime/{slug}", name="anime_show")
+     */
+    public function showAnime(Anime $anime) //param converter
+    {
+        return $this->render('anime/show_anime.html.twig', [
+            'anime' => $anime // send 1 anime
         ]);
     }
 }

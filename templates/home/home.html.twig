@@ -3,8 +3,8 @@
 {% block stylesheets %}
     <style>
         .image-mini {
-            width: 200px;
-            height: 60px;
+            width: 150px;
+            height: 150px;
         }
     </style>
 {% endblock %}
@@ -33,7 +33,7 @@
                     </span>
                     <span class="info">
                         <span>
-                            Ajouté il y à {{ episode.createdAt | date('H:i') }}
+                            Ajouté le {{ episode.createdAt | date('d-m-Y à H:i') }}
                         </span>
                     </span>
                 </span>

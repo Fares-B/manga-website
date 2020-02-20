@@ -15,21 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EpisodeController extends AbstractController
 {
-    
-
-    /**
-     * Affiche l'episode rechercher
-     * 
-     * @Route("/show/{slug}", name="episode_show")
-     */
-    public function showEpisode(Episode $episode)
-    {
-        return $this->render('episode/show_episode.html.twig', [
-            'title' => $episode->getTitle(),
-            'episode' => $episode
-        ]);
-    }
-
     /**
      * Formulaire pour ajouter/editer un episode
      * 
@@ -83,6 +68,19 @@ class EpisodeController extends AbstractController
             'episode' => $episode,
             'editMode' => $episode->getId() === null,
             'animeId' => $animeId
+        ]);
+    }
+
+    /**
+     * Affiche l'episode rechercher
+     * 
+     * @Route("/show/{slug}", name="episode_show")
+     */
+    public function showEpisode(Episode $episode)
+    {
+        return $this->render('episode/show_episode.html.twig', [
+            'title' => $episode->getTitle(),
+            'episode' => $episode
         ]);
     }
 }
