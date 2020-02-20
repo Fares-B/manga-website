@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Episode;
-use App\Entity\Anime;
-use App\Entity\Format;
-use App\Entity\Voice;
+use App\Entity\Anime\Anime;
+use App\Entity\Episode\Episode;
+use App\Entity\Episode\Format;
+use App\Entity\Episode\Voice;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

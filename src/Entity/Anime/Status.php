@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Anime;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TypeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Anime\StatusRepository")
  */
-class Type
+class Status
 {
     /**
      * @ORM\Id()
@@ -24,7 +24,7 @@ class Type
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Anime", mappedBy="type")
+     * @ORM\OneToMany(targetEntity="App\Entity\Anime\Anime", mappedBy="status")
      */
     private $animes;
 
@@ -62,7 +62,7 @@ class Type
     {
         if (!$this->animes->contains($anime)) {
             $this->animes[] = $anime;
-            $anime->setType($this);
+            $anime->setStatus($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Type
         if ($this->animes->contains($anime)) {
             $this->animes->removeElement($anime);
             // set the owning side to null (unless already changed)
-            if ($anime->getType() === $this) {
-                $anime->setType(null);
+            if ($anime->getStatus() === $this) {
+                $anime->setStatus(null);
             }
         }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Episode;
 
-use App\Entity\Episode;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Episode\Episode;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Episode|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,11 +20,11 @@ class EpisodeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Utiliser pour la page home combiner avec une pagination.
      * @return Query
      */
     public function findAllQuery()
     {
-        // if need select just title and date or any
         // return $this->createQueryBuilder('e')
         //     // ->select('e.title')
         //     ->orderBy('e.createdAt', 'DESC')

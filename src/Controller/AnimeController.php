@@ -2,48 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-
-use App\Entity\Anime;
-use App\Entity\Episode;
-use App\Repository\AnimeRepository;
-use App\Repository\EpisodeRepository;
 use App\Form\AnimeType;
-use App\Form\EpisodeType;
-
+use App\Entity\Anime\Anime;
+use App\Repository\Anime\AnimeRepository;
 use Cocur\Slugify\Slugify;
-use Knp\Component\Pager\PaginatorInterface;
 
-use App\DataFixtures\FixturesAnimesEpisodes;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+
 
 class AnimeController extends AbstractController
 {
-    
     /**
-     * Affiche l'a page d'accueil
-     * 
-     * @Route("/", name="home")
-     */
-    public function home(EpisodeRepository $repo, PaginatorInterface $paginator, Request $request)
-    {
-        $episodes = $paginator->paginate(
-            $repo->findAllQuery(),
-            $request->query->getInt('page', 1), /*page number*/
-            20 // limit per page
-        );
-
-        // $episodes = $repo->findAll();
-        return $this->render('anime/home.html.twig', [
-            'title' => 'Jaken Anime',
-            'episodes' => $episodes,
-        ]);
-    }
-
-    /**
-     * Affiche une liste de tous les animé
+     * Affiche une liste de tous les animés
      * 
      * @Route("/anime", name="anime")
      */
@@ -53,6 +26,18 @@ class AnimeController extends AbstractController
         return $this->render('anime/anime.html.twig', [
             'title' => 'Anime Liste',
             'animes' => $animes // send all animes in database
+        ]);
+    }
+
+    /**
+     * Affiche la page de presentation d'un animé
+     * 
+     * @Route("/anime/{slug}", name="anime_show")
+     */
+    public function showAnime(Anime $anime) //param converter
+    {
+        return $this->render('anime/show_anime.html.twig', [
+            'anime' => $anime // send 1 anime
         ]);
     }
 
@@ -95,95 +80,5 @@ class AnimeController extends AbstractController
             'formAnime' => $form->createView(),
             'editMode' => $anime->getId() === null
         ]);
-    }
-
-    /**
-     * Formulaire pour ajouter un nouveau episode
-     * 
-     * @Route("/anime/episode/new?{id}", name="episode_create")
-     * @Route("/anime/episode/new", name="episode_create")
-     * @Route("/anime/episode/{slug}/edit", name="episode_edit")
-     */
-    public function formEpisode(Episode $episode = null, Request $request)
-    {
-
-        if (!$episode) {
-            $episode = new Episode();
-        }
-
-        $repo = $this->getDoctrine()->getRepository(Anime::class);
-
-        $animes = $repo->findAll();
-        
-        $form = $this->createForm(EpisodeType::class, $episode);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!$episode->getId()) {
-                $episode->setCreatedAt(new \DateTime); // don't change the date
-            }
-
-            $slugify = new Slugify();
-
-            $link = $episode->getAnime()->getTitle() . ' ' . $episode->getTitle();
-
-            $episode->setSlug($slugify->slugify($link));
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $entityManager->persist($episode);
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('episode_show', ['slug' => $episode->getSlug()]);
-        }
-        $animeId = null;
-        if (isset($_GET['id'])) {
-            $animeId = (int)$_GET['id'];
-        }
-        return $this->render('anime/form_episode.html.twig', [
-            'formEpisode' => $form->createView(),
-            'episode' => $episode,
-            'editMode' => $episode->getId() === null,
-            'animeId' => $animeId
-        ]);
-    }
-
-    /**
-     * Affiche la page de presentation d'un animé
-     * 
-     * @Route("/anime/{slug}", name="anime_show")
-     */
-    public function showAnime(Anime $anime) //param converter
-    {
-        return $this->render('anime/show_anime.html.twig', [
-            'anime' => $anime // send 1 anime
-        ]);
-    }
-
-    /**
-     * Affiche l'episode rechercher
-     * 
-     * @Route("/show/{slug}", name="episode_show")
-     */
-    public function showEpisode(Episode $episode)
-    {
-        return $this->render('anime/show_episode.html.twig', [
-            'title' => $episode->getTitle(),
-            'episode' => $episode
-        ]);
-    }
-    
-    /**
-     * Function for dev | add fixtures in db
-     * @Route("/fixtures", name="load_fixtures")
-     */
-    public function loadFixtures()
-    {
-        // ajoute 3 animes avec plusieurs episodes
-        $fixtures = new FixturesAnimesEpisodes();
-        $fixtures->generate();
-        return $this->redirectToRoute('home');
     }
 }

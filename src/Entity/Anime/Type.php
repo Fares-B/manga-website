@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Anime;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\FormatRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Anime\TypeRepository")
  */
-class Format
+class Type
 {
     /**
      * @ORM\Id()
@@ -24,13 +24,13 @@ class Format
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Episode", mappedBy="format")
+     * @ORM\OneToMany(targetEntity="App\Entity\Anime\Anime", mappedBy="type")
      */
-    private $episodes;
+    private $animes;
 
     public function __construct()
     {
-        $this->episodes = new ArrayCollection();
+        $this->animes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,30 +51,30 @@ class Format
     }
 
     /**
-     * @return Collection|Episode[]
+     * @return Collection|Anime[]
      */
-    public function getEpisodes(): Collection
+    public function getAnimes(): Collection
     {
-        return $this->episodes;
+        return $this->animes;
     }
 
-    public function addEpisode(Episode $episode): self
+    public function addAnime(Anime $anime): self
     {
-        if (!$this->episodes->contains($episode)) {
-            $this->episodes[] = $episode;
-            $episode->setFormat($this);
+        if (!$this->animes->contains($anime)) {
+            $this->animes[] = $anime;
+            $anime->setType($this);
         }
 
         return $this;
     }
 
-    public function removeEpisode(Episode $episode): self
+    public function removeAnime(Anime $anime): self
     {
-        if ($this->episodes->contains($episode)) {
-            $this->episodes->removeElement($episode);
+        if ($this->animes->contains($anime)) {
+            $this->animes->removeElement($anime);
             // set the owning side to null (unless already changed)
-            if ($episode->getFormat() === $this) {
-                $episode->setFormat(null);
+            if ($anime->getType() === $this) {
+                $anime->setType(null);
             }
         }
 

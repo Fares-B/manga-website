@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Episode;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\VoiceRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Episode\FormatRepository")
  */
-class Voice
+class Format
 {
     /**
      * @ORM\Id()
@@ -24,7 +24,7 @@ class Voice
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Episode", mappedBy="voice")
+     * @ORM\OneToMany(targetEntity="App\Entity\Episode\Episode", mappedBy="format")
      */
     private $episodes;
 
@@ -62,7 +62,7 @@ class Voice
     {
         if (!$this->episodes->contains($episode)) {
             $this->episodes[] = $episode;
-            $episode->setVoice($this);
+            $episode->setFormat($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Voice
         if ($this->episodes->contains($episode)) {
             $this->episodes->removeElement($episode);
             // set the owning side to null (unless already changed)
-            if ($episode->getVoice() === $this) {
-                $episode->setVoice(null);
+            if ($episode->getFormat() === $this) {
+                $episode->setFormat(null);
             }
         }
 

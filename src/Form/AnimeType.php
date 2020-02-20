@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Anime;
-use App\Entity\Kind;
-use App\Entity\Type;
-use App\Entity\Status;
+use App\Entity\Anime\Anime;
+use App\Entity\Anime\Kind;
+use App\Entity\Anime\Type;
+use App\Entity\Anime\Status;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

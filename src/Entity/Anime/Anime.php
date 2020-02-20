@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Anime;
+
+use App\Entity\Episode\Episode;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AnimeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Anime\AnimeRepository")
  */
 class Anime
 {
@@ -103,28 +104,28 @@ class Anime
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="animes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Type", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="animes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Status", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Kind", inversedBy="animes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Anime\Kind", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $kind;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Episode", mappedBy="anime")
+     * @ORM\OneToMany(targetEntity="App\Entity\Episode\Episode", mappedBy="anime")
      */
     private $episodes;
 

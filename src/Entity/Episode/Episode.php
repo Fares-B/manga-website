@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Episode;
+
+use App\Entity\Anime\Anime;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EpisodeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Episode\EpisodeRepository")
  */
 class Episode
 {
@@ -53,21 +54,21 @@ class Episode
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Anime", inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Anime", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $anime;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Voice", inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Episode\Voice", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $voice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Format", inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Episode\Format", inversedBy="episodes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */

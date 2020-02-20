@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Anime;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\KindRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Anime\KindRepository")
  */
 class Kind
 {
@@ -24,7 +24,7 @@ class Kind
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Anime", mappedBy="kind")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Anime\Anime", mappedBy="kind")
      */
     private $animes;
 

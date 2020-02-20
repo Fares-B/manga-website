@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Episode;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StatusRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Episode\VoiceRepository")
  */
-class Status
+class Voice
 {
     /**
      * @ORM\Id()
@@ -24,13 +24,13 @@ class Status
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Anime", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="App\Entity\Episode\Episode", mappedBy="voice")
      */
-    private $animes;
+    private $episodes;
 
     public function __construct()
     {
-        $this->animes = new ArrayCollection();
+        $this->episodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,30 +51,30 @@ class Status
     }
 
     /**
-     * @return Collection|Anime[]
+     * @return Collection|Episode[]
      */
-    public function getAnimes(): Collection
+    public function getEpisodes(): Collection
     {
-        return $this->animes;
+        return $this->episodes;
     }
 
-    public function addAnime(Anime $anime): self
+    public function addEpisode(Episode $episode): self
     {
-        if (!$this->animes->contains($anime)) {
-            $this->animes[] = $anime;
-            $anime->setStatus($this);
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes[] = $episode;
+            $episode->setVoice($this);
         }
 
         return $this;
     }
 
-    public function removeAnime(Anime $anime): self
+    public function removeEpisode(Episode $episode): self
     {
-        if ($this->animes->contains($anime)) {
-            $this->animes->removeElement($anime);
+        if ($this->episodes->contains($episode)) {
+            $this->episodes->removeElement($episode);
             // set the owning side to null (unless already changed)
-            if ($anime->getStatus() === $this) {
-                $anime->setStatus(null);
+            if ($episode->getVoice() === $this) {
+                $episode->setVoice(null);
             }
         }
 
