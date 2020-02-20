@@ -17,6 +17,8 @@ use App\Form\EpisodeType;
 use Cocur\Slugify\Slugify;
 use Knp\Component\Pager\PaginatorInterface;
 
+use App\DataFixtures\FixturesAnimesEpisodes;
+
 class AnimeController extends AbstractController
 {
     
@@ -30,7 +32,7 @@ class AnimeController extends AbstractController
         $episodes = $paginator->paginate(
             $repo->findAllQuery(),
             $request->query->getInt('page', 1), /*page number*/
-            2 // limit per page
+            20 // limit per page
         );
 
         // $episodes = $repo->findAll();
@@ -172,13 +174,16 @@ class AnimeController extends AbstractController
             'episode' => $episode
         ]);
     }
-
+    
     /**
      * Function for dev | add fixtures in db
      * @Route("/fixtures", name="load_fixtures")
      */
-    public function loadFixtures(TypeRepository $repo)
+    public function loadFixtures()
     {
-        // 
+        // ajoute 3 animes avec plusieurs episodes
+        $fixtures = new FixturesAnimesEpisodes();
+        $fixtures->generate();
+        return $this->redirectToRoute('home');
     }
 }

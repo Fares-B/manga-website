@@ -45,7 +45,9 @@
                     <ul>
                         {% set links = episode.video | split(', ') %}
                         {% for link in links %}
-                            <li>{{ link }}</li>
+                            <li>
+                                <iframe width="560" height="315" src="{{ link }}" frameborder="0" allowfullscreen></iframe>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
