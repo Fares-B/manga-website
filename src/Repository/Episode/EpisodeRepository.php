@@ -20,17 +20,21 @@ class EpisodeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Utiliser pour la page home combiner avec une pagination.
+     * Utiliser dans le controller episode pour générer une pagination.
      * @return Query
      */
     public function findAllQuery()
     {
-        // return $this->createQueryBuilder('e')
-        //     // ->select('e.title')
-        //     ->orderBy('e.createdAt', 'DESC')
-        //     ->getQuery()
-        // ;
-        return $this->findBy([/*critaire*/], ['createdAt' => 'DESC']);
+        // peut optimisé la recherche pour renvoyer l'episode, image et le nom de l'anime seulement
+        // avec la methode select
+        $query = $this->createQueryBuilder('e')
+            // ->select('e.slug') => pour l'url
+            // ->select('e.anime.image') pour l'image de l'anime
+            // ...
+            ->orderBy('e.createdAt', 'DESC')
+            ->getQuery();
+        return $query;
+        // return $this->findBy([/*critaire*/], ['createdAt' => 'DESC']);
     }
 
     // /**

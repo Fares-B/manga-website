@@ -11,13 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class FixturesController extends AbstractController
 {
     /**
-     * Function for dev | add fixtures in db
+     * Ajoute du contenu fictif
+     * Fonction pour dév
+     * 
      * @Route("/fixtures", name="load_fixtures")
      */
     public function loadFixtures()
     {
-        // ajoute 3 animes avec plusieurs episodes
-        $fixtures = new FixturesAnimesEpisodes();
+        // FixturesAnimesEpisodes($numberOfAnime)
+        $fixtures = new FixturesAnimesEpisodes(3); // => Ajoute 3 animes et 11 à 26 episodes par anime.
         $fixtures->generate();
         return $this->redirectToRoute('home');
     }

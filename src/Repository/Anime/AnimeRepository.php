@@ -19,6 +19,22 @@ class AnimeRepository extends ServiceEntityRepository
         parent::__construct($registry, Anime::class);
     }
 
+    /**
+     * Utiliser dans le controller anime pour générer une pagination.
+     * @return Query
+     */
+    public function findAllQuery()
+    {
+        // peut optimisé la recherche pour renvoyer que le nom, slug, parution, image, count Episode, getLastEpisode
+        // avec la methode select
+        $query = $this->createQueryBuilder('a')
+            // ->select('e.title')
+            // ...
+            ->orderBy('a.title', 'ASC')
+            ->getQuery();
+        return $query;
+    }
+
     // /**
     //  * @return Anime[] Returns an array of Anime objects
     //  */

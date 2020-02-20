@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Form\AnimeType;
+use Cocur\Slugify\Slugify;
 use App\Entity\Anime\Anime;
 use App\Repository\Anime\AnimeRepository;
-use Cocur\Slugify\Slugify;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +21,15 @@ class AnimeController extends AbstractController
      * 
      * @Route("/anime", name="anime")
      */
-    public function anime(AnimeRepository $repo)
+    public function anime(AnimeRepository $repo, PaginatorInterface $paginator, Request $request)
     {
-        $animes = $repo->findAll();
+        $animes = $paginator->paginate(
+            $repo->findAllQuery(),
+            $request->query->getInt('page', 1), /*page number*/
+            20 // limit per page
+        );
+
+        // $animes = $repo->findAll();
         return $this->render('anime/anime.html.twig', [
             'title' => 'Anime Liste',
             'animes' => $animes // send all animes in database

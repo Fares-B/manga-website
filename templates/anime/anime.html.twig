@@ -43,6 +43,20 @@
             {% endfor %}
         </div>
 
+        <div class="pagination">
+            {{ knp_pagination_render(animes) }}
+        </div>
+
     </section>
+
+    <footer>
+        <ul>
+            <ol>Contenu du site</ol>
+            <li>
+                <span>{{ animes.getTotalItemCount }}</span>
+                <span>Animes</span>
+            </li>
+        </ul>
+    </footer>
 
 {% endblock %}

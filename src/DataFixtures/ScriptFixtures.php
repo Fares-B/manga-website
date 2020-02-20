@@ -16,13 +16,16 @@ class FixturesAnimesEpisodes  {
     private $faker;
     private $slugify;
 
-    public function __construct()
+    private $animeMax;
+
+    public function __construct($animeMax = 1)
     {
         $this->pdo = $this->getPdo();
         $this->faker = \Faker\Factory::create('fr_FR');
         // ajout d'un package à faker pour générer des liens youtube
         $this->faker->addProvider(new \Faker\Provider\Youtube($this->faker));
         $this->slugify = new Slugify();
+        $this->animeMax = $animeMax;
     }
 
     public function generate(): void
@@ -33,7 +36,7 @@ class FixturesAnimesEpisodes  {
         // $animesArray = (array)$this->getAnime();
         
 
-        for($i = 1; $i <= 1; $i++) {
+        for($i = 1; $i <= $this->animeMax; $i++) {
             $stmt= $this->pdo->prepare($sql);
             $anime = $this->getAnime();
             $stmt->execute($anime);

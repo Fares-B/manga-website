@@ -21,8 +21,8 @@ class HomeController extends AbstractController
     {
         $episodes = $paginator->paginate(
             $repo->findAllQuery(),
-            $request->query->getInt('page', 1), /*page number*/
-            20 // limit per page
+            $request->query->getInt('page', 1), /*numero de la page*/
+            20 // limit par page
         );
 
         // $episodes = $repo->findAll();
