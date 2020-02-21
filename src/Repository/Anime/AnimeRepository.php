@@ -41,7 +41,7 @@ class AnimeRepository extends ServiceEntityRepository
             ->where('a.title LIKE :title')
             ->setParameter('title' , '%'. $criteria['animes'] .'%')
             ->orderBy('a.title', 'ASC')
-            ->setMaxResults(1)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
         ;

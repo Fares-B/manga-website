@@ -13,21 +13,22 @@ class SearchController extends AbstractController
 {
     /**
      * Recherche un anime dans la bdd et renvoi
+     * Créer ici une api rest pour ensuite pouvoir l'utiliser avec js (ajax)
      * 
      * @Route("/search", name="anime_search")
      */
     public function searchAnime(Request $request, AnimeRepository $AnimeRepository)
     {
         $searchForm = $this->createForm(SearchAnimeType::class);
-        $result = null;
+        $animes = null;
         $searchForm->handleRequest($request);
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $criteria = $searchForm->getData();
-            $result = $AnimeRepository->likeAnime($criteria);
+            $animes = $AnimeRepository->likeAnime($criteria);
         }
         return $this->render("search/index.html.twig", [
             'formSearch' => $searchForm->createView(),
-            'result' => $result,
+            'animes' => $animes,
         ]);
     }
 }

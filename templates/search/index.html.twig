@@ -7,9 +7,17 @@
     {{ form_end(formSearch) }}
 
     
-    {% if result %}
+    {# {% if animes %}
         <pre>
-            {{ dump(result) }}
+            {{ dump(animes) }}
         </pre>
-    {% endif %}
+    {% endif %} #}
+
+    <ul>
+        {% for anime in animes %}
+            <li>
+                <a href="{{ path("anime_show", {slug: anime.slug}) }}">{{ anime.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
