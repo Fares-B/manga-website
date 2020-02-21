@@ -35,6 +35,18 @@ class AnimeRepository extends ServiceEntityRepository
         return $query;
     }
 
+    public function likeAnime($criteria)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :title')
+            ->setParameter('title' , '%'. $criteria['animes'] .'%')
+            ->orderBy('a.title', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
     // /**
     //  * @return Anime[] Returns an array of Anime objects
     //  */

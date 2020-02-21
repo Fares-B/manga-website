@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ form_start(formSearch) }}
+        {{ form_row(formSearch.animes, {'attr': {'placeholder': "Rechercher un anime"}}) }}
+        <button class="btn btn-success" type="submit">Rechercher</button>
+    {{ form_end(formSearch) }}
+
+    
+    {% if result %}
+        <pre>
+            {{ dump(result) }}
+        </pre>
+    {% endif %}
+{% endblock %}
