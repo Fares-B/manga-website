@@ -7,6 +7,12 @@
 {% block body %}
 
     <section>
+        <div>
+            {{ form_start(formSearch) }}
+                {{ form_row(formSearch.title, {'attr': {'placeholder': "Rechercher un anime"}}) }}
+                <button class="btn btn-success" type="submit">Rechercher</button>
+            {{ form_end(formSearch) }}
+        </div>
         <h3>Liste d'animes</h3>
 
         <div class="row">

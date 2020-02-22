@@ -27,6 +27,7 @@ class AnimeRepository extends ServiceEntityRepository
     {
         // peut optimisé la recherche pour renvoyer que le nom, slug, parution, image, count Episode, getLastEpisode
         // avec la methode select
+        // utiliser plutot les groups dans les entity pour n'avoir que les elements souhaiter
         $query = $this->createQueryBuilder('a')
             // ->select('e.title')
             // ...
@@ -35,15 +36,18 @@ class AnimeRepository extends ServiceEntityRepository
         return $query;
     }
 
+    /**
+     * @return Query
+     */
     public function likeAnime($criteria)
     {
+        // cherche un titre dans la bdd anime contenant un critère à rechercher
         return $this->createQueryBuilder('a')
             ->where('a.title LIKE :title')
-            ->setParameter('title' , '%'. $criteria['animes'] .'%')
+            ->setParameter('title' , '%'. $criteria['title'] .'%')
             ->orderBy('a.title', 'ASC')
-            ->setMaxResults(10)
+            // ->setMaxResults(10) // le paginator prends le relais, mais pour une api je limiterai le nombre de resultat 
             ->getQuery()
-            ->getResult();
         ;
     }
 

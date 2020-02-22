@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\AnimeType;
 use App\Entity\Anime\Anime;
 use App\Repository\Anime\AnimeRepository;
+use App\Form\SearchAnimeType;
 
 use Cocur\Slugify\Slugify;
 
@@ -24,8 +25,22 @@ class AnimeController extends AbstractController
      */
     public function anime(AnimeRepository $repo, PaginatorInterface $paginator, Request $request)
     {
+        $searchForm = $this->createForm(SearchAnimeType::class);
+
+        $searchForm->handleRequest($request);
+
+        
+        // si j'ai des criteres de recherche alors on like sinon on affiche la liste complète
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $criteria = $searchForm->getData();
+            $query = $repo->likeAnime($criteria);
+        }
+        else {
+            $query = $repo->findAllQuery();
+        }
+
         $animes = $paginator->paginate(
-            $repo->findAllQuery(),
+            $query,
             $request->query->getInt('page', 1), /*page number*/
             20 // limit per page
         );
@@ -33,7 +48,8 @@ class AnimeController extends AbstractController
         // $animes = $repo->findAll();
         return $this->render('anime/anime.html.twig', [
             'title' => 'Anime Liste',
-            'animes' => $animes // send all animes in database
+            'formSearch' => $searchForm->createView(),
+            'animes' => $animes
         ]);
     }
 
