@@ -2,14 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Anime\Kind;
 use App\Entity\Anime\Type;
 use App\Entity\Anime\Status;
-use App\Entity\Anime\Kind;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SearchAnimeType extends AbstractType
 {
@@ -32,6 +33,18 @@ class SearchAnimeType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+            ])
+            ->add('publishedMin', IntegerType::class, [
+                'required'   => false
+            ])
+            ->add('publishedMax', IntegerType::class, [
+                'required'   => false
+            ])
+            ->add('author', null, [
+                'required'   => false
+            ])
+            ->add('country', null, [
+                'required'   => false
             ])
         ;
     }

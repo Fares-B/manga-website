@@ -68,14 +68,50 @@ class AnimeRepository extends ServiceEntityRepository
                 $query->andWhere($query->expr()->eq($k, ':'.$k))
                       ->setParameter($k, $criteria['kind'][$i]->getId());
             }
+
+            // Continuer de rechercher une solution sans devoir créer plusieurs jointures
+            // $query->leftJoin('a.kind', 'k');
+
+            // $kindArray = $this->kindArray($criteria['kind']);
+
+            // $query->andWhere($query->expr()->in('k', ':kinds'))
+            //       ->setParameter('kinds', $kindArray);
+            
         }
 
-        // Pour la date de parution utiliser
-        // $qb->expr()->between('u.id', ':dateMin', ':dateMax');
+        if($criteria['publishedMin']) {
+            $query->andWhere('a.published >= :min')
+                    ->setParameter('min' , $criteria['publishedMin']);
+        }
+        if($criteria['publishedMax']) {
+            $query->andWhere('a.published <= :max')
+                    ->setParameter('max' , $criteria['publishedMax']);
+        }
 
-        // ->setMaxResults(10) // le paginator prends le relais, mais pour une api je limiterai le nombre de resultat 
+        if($criteria['author']) {
+            $query->andWhere('a.author LIKE :author')
+                  ->setParameter('author' , '%' .$criteria['author']. '%');
+        }
+
+        if($criteria['country']) {
+            $query->andWhere('a.country = :country')
+                  ->setParameter('country' , $criteria['country']);
+        }
+
         return $query->orderBy('a.title', 'ASC')->getQuery();
     }
+
+    // /**
+    //  * @return array
+    //  */
+    // private function kindArray($object): Array
+    // {
+    //     $kindArray = [];
+    //     foreach ($object as $value) {
+    //         $kindArray[] = $value->getId();
+    //     }
+    //     return $kindArray;
+    // }
 
     // /**
     //  * @return Anime[] Returns an array of Anime objects
