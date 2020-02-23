@@ -33,7 +33,7 @@ class AnimeController extends AbstractController
         // si j'ai des criteres de recherche alors on like sinon on affiche la liste complète
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $criteria = $searchForm->getData();
-            $query = $repo->likeAnime($criteria);
+            $query = $repo->searchAnime($criteria);
         }
         else {
             $query = $repo->findAllQuery();

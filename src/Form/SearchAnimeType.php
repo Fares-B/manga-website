@@ -2,8 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Anime\Type;
+use App\Entity\Anime\Status;
+use App\Entity\Anime\Kind;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchAnimeType extends AbstractType
@@ -13,6 +18,20 @@ class SearchAnimeType extends AbstractType
         $builder
             ->add('title', null, [
                 'required'   => false
+            ])
+            ->add('type', EntityType::class, [
+                'class' => Type::class,
+                'choice_label' => 'name',
+            ])
+            ->add('status', EntityType::class, [
+                'class' => Status::class,
+                'choice_label' => 'name',
+            ])
+            ->add('kind', EntityType::class, [
+                'class' => Kind::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
             ])
         ;
     }
