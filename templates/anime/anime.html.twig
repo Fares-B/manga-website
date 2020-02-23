@@ -7,19 +7,31 @@
 {% block body %}
 
     <section>
-        <div>
+        <div class="search">
             {{ form_start(formSearch) }}
 
                 {{ form_row(formSearch.title, {'attr': {'placeholder': "Rechercher un anime"}}) }}
-                {{ form_row(formSearch.type) }}
-                {{ form_row(formSearch.status) }}
-                {{ form_row(formSearch.kind, {'attr': {'class': 'form-inline'}}) }}
-                {{ form_row(formSearch.publishedMin, {'attr': {'placeholder': "Date de min parution"}}) }}
-                {{ form_row(formSearch.publishedMax, {'attr': {'placeholder': "Date de max parution"}}) }}
-                {{ form_row(formSearch.author, {'attr': {'placeholder': "Nom du mangaka"}}) }}
-                {{ form_row(formSearch.country, {'attr': {'placeholder': "Pays d'origine de l'oeuvre"}}) }}
-                
                 <button class="btn btn-success" type="submit">Rechercher</button>
+
+                <button class="btn btn-warning" type="reset">Reset</button>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="search_switch" />
+                        <label class="custom-control-label" for="search_switch">Recherche Avancée</label>
+                    </div>
+                </div>
+
+                <div class="advanced_search" id="advanced_search" style="display:none">
+                    {{ form_row(formSearch.type) }}
+                    {{ form_row(formSearch.status) }}
+                    {{ form_row(formSearch.kind, {'attr': {'class': 'form-inline'}}) }}
+                    {{ form_row(formSearch.publishedMin, {'attr': {'placeholder': "Date de min parution"}}) }}
+                    {{ form_row(formSearch.publishedMax, {'attr': {'placeholder': "Date de max parution"}}) }}
+                    {{ form_row(formSearch.author, {'attr': {'placeholder': "Nom du mangaka"}}) }}
+                    {{ form_row(formSearch.country, {'attr': {'placeholder': "Pays d'origine de l'oeuvre"}}) }}
+                </div>
+                
             {{ form_end(formSearch) }}
         </div>
 
@@ -74,4 +86,15 @@
         </ul>
     </footer>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $( () => {
+            $advanced_search = $("#advanced_search");
+            $("#search_switch").change(function() {
+                $advanced_search.toggle("medium");
+            });
+        });
+    </script>
 {% endblock %}
