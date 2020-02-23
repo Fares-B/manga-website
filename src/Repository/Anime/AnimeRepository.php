@@ -59,18 +59,14 @@ class AnimeRepository extends ServiceEntityRepository
                     ->setParameter('status' , $criteria['status']->getId());
         }
 
-        // Gros problème !
-        // pour un critère avec plusieurs choix // pour les kind
-        // erreur dans les conditions where
-        // affiche des resultats inattendus
         if($criteria['kind']) {
-            // Jointure car ici nous avons une besoin d'une table qui est une relation entre kind et anime (ManyToMany)
-            $query->leftJoin('a.kind', 'k')
-                  ->addSelect('k');
-
-            foreach ($criteria['kind'] as $kind) {
-                $query->andWhere($query->expr()->eq('k', ':k'))
-                      ->setParameter('k', $kind->getId());
+            // J'ai réglé le problème en concaténant le nom du parametre (:k) avec un index ($i) qui change à chaque fin de boucle.
+            // et en mettant en place la jointure dans la boucle
+            for ($i=0; $i < count($criteria['kind']); $i++) {
+                $k = 'k'.$i;
+                $query->leftJoin('a.kind', $k);
+                $query->andWhere($query->expr()->eq($k, ':'.$k))
+                      ->setParameter($k, $criteria['kind'][$i]->getId());
             }
         }
 
