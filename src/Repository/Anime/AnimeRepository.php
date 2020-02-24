@@ -37,6 +37,7 @@ class AnimeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Filtre les animes en fonction du choix de l'utilisateur
      * @return Query
      */
     public function searchAnime($criteria)
@@ -44,7 +45,7 @@ class AnimeRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('a');
         // cherche un titre dans la bdd anime contenant un critère à rechercher
         if ($criteria['title']) {
-            $query->andWhere('a.title LIKE :title')
+            $query->andWhere('a.title LIKE :title OR a.alternative_title LIKE :title')
                   ->setParameter('title' , '%'. $criteria['title'] .'%');
         }
 
@@ -99,6 +100,19 @@ class AnimeRepository extends ServiceEntityRepository
         }
 
         return $query->orderBy('a.title', 'ASC')->getQuery();
+    }
+
+    public function findAnimeTitle($title)
+    {
+        $query = $this->createQueryBuilder('a');
+
+        if ($title) {
+            $query->select('a.title', 'a.slug')
+                  ->andWhere('a.title LIKE :title OR a.alternative_title LIKE :title')
+                  ->setParameter('title' , '%'. $title .'%');
+        }
+        // Revoir l'ordre des elements
+        return $query->orderBy('a.title', 'ASC')->setMaxResults(10)->getQuery()->getResult();
     }
 
     // /**
