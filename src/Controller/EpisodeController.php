@@ -78,12 +78,13 @@ class EpisodeController extends AbstractController
      */
     public function deleteEpisode(Episode $episode)
     {
+        $animeSlug = $episode->getAnime()->getSlug();
+
         $em = $this->getDoctrine()->getManager();
-        // dd($episode);
         $em->remove($episode);
         $em->flush();
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('anime_show', ['slug' => $animeSlug]);
     }
 
     /**
