@@ -44,7 +44,6 @@ class AnimeController extends AbstractController
             20 // limit per page
         );
 
-        // $animes = $repo->findAll();
         return $this->render('anime/anime.html.twig', [
             'title' => 'Anime Liste',
             'formSearch' => $searchForm->createView(),
