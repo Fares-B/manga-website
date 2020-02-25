@@ -8,9 +8,14 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * Anime
+ * 
  * @ORM\Entity(repositoryClass="App\Repository\Anime\AnimeRepository")
+ * @UniqueEntity(fields={"title"}, message="the name of anime already have an account!")
+ * @UniqueEntity(fields={"slug"}, message="the slug of anime already have an account!")
  */
 class Anime
 {
@@ -98,7 +103,7 @@ class Anime
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Length(max = 255)
      */
     private $slug;
@@ -133,6 +138,7 @@ class Anime
     {
         $this->kind = new ArrayCollection();
         $this->episodes = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime);
     }
 
     public function getId(): ?int

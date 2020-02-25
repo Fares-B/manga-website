@@ -58,7 +58,7 @@ class AnimeController extends AbstractController
      * @Route("/anime/new", name="anime_create")
      * @Route("/anime/{slug}/edit", name="anime_edit")
      */
-    public function formAnime(Anime $anime = null, Request $request)
+    public function formAnime(Anime $anime = null, Request $request, AnimeRepository $animeRepo)
     {
         if (!$anime) {
             $anime = new Anime();
@@ -69,19 +69,23 @@ class AnimeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Modifie le slug à chaque creation et edition
+            // Ajoute un slug (url friendly) à notre classe anime
+            $slugify = new Slugify();
+            $anime->setSlug($slugify->slugify($anime->getTitle()));
+            // check si le slug existe dans la base de données
+            $slugExists = $animeRepo->findOneBySlug($anime->getSlug());
 
-            if (!$anime->getId()) {
-                $slugify = new Slugify();
-
-                $anime->setCreatedAt(new \DateTime);
-                $anime->setSlug($slugify->slugify($anime->getTitle()));
+            if(!$slugExists) {
+                $entityManager = $this->getDoctrine()->getManager();
+    
+                $entityManager->persist($anime);
+    
+                $entityManager->flush();
             }
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $entityManager->persist($anime);
-
-            $entityManager->flush();
+            else {
+                dd('slug already exists !');
+            }
 
             return $this->redirectToRoute('anime_show', ['slug' => $anime->getSlug()]);
         }
