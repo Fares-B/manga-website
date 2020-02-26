@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -23,11 +24,13 @@ class Anime
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("api_anime_search")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_anime_search")
      * @Assert\Length(
      *      min = 3,
      *      max = 255,
@@ -39,6 +42,7 @@ class Anime
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("api_anime_search")
      * @Assert\Length(
      *      min = 5,
      *      minMessage = "Your content must be at least {{ limit }} characters long"
@@ -59,6 +63,7 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("api_anime_search")
      * @Assert\Length(
      *      max = 255,
      *      maxMessage = "Your alternative title cannot be longer than {{ limit }} characters"
@@ -68,6 +73,7 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_anime_search")
      * @Assert\Length(
      *      min = 5,
      *      max = 255,
@@ -79,6 +85,7 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_anime_search")
      * @Assert\Length(
      *      min = 3,
      *      max = 255,
@@ -90,11 +97,13 @@ class Anime
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("api_anime_search")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_anime_search")
      * @Assert\NotBlank
      * @Assert\Url(
      *      message = "The image url '{{ value }}' is not a valid url",
@@ -104,6 +113,7 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups("api_anime_search")
      * @Assert\Length(max = 255)
      */
     private $slug;
@@ -111,6 +121,7 @@ class Anime
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Type", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_anime_search")
      * @Assert\NotBlank()
      */
     private $type;
@@ -119,12 +130,14 @@ class Anime
      * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Status", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
+     * @Groups("api_anime_search")
      */
     private $status;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Anime\Kind", inversedBy="animes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("api_anime_search")
      * @Assert\NotBlank()
      */
     private $kind;
