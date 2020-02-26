@@ -9,6 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * Api search anime
+ */
 class SearchController extends AbstractController
 {
     private $animeRepo;
@@ -24,24 +27,19 @@ class SearchController extends AbstractController
      */
     public function searchAnimeTitle(Request $request)
     {
-        $title = $request->request->get('title');
+        $title = $request->query->get("title");
         $result = $this->animeRepo->findAnimeTitle($title);
-        return $this->getJsonResponse($result);
+        return new JsonResponse($result);
     }
 
     /**
      * @Route("/api/search/anime/criteria", name="api_search_anime_criteria")
+     * @return Response
      */
     public function searchAnimeCriteria(Request $request)
     {
         $criteria = $request->query->all();
         $result = $this->animeRepo->searchAnime($criteria);
-        dd($result);
-        // ne marche pas pour l'instant car le repo demande une entité avec des getter
-        return $this->getJsonResponse(['ok' => 1]);
-    }
-    private function getJsonResponse($data)
-    {
-        return (new JsonResponse($data));
+        return $this->json($result, 200, [], ['groups' => 'api_anime_search']);
     }
 }

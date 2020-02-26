@@ -8,7 +8,7 @@
 
     <section>
         <div class="search">
-            {{ form_start(formSearch) }}
+            {{ form_start(formSearch, {'attr': {'id': 'form_anime_search'}}) }}
 
                 {{ form_row(formSearch.title, {'attr': {'placeholder': "Rechercher un anime"}}) }}
                 <button class="btn btn-success" type="submit">Rechercher</button>
@@ -91,12 +91,41 @@
 {% block javascripts %}
     <script>
         $( () => {
+            // button de recherche avancée
             $advanced_search = $("#advanced_search");
             $("#search_switch").change(function() {
                 $advanced_search.toggle("medium");
             });
-        });
 
-        // mettre en place un appel ajax en fonction des modification faite sur le formulaire
+            // recherche avec ajax
+            $("#form_anime_search").change(() => {
+                const formCriteria = $("#form_anime_search").serialize();
+
+                $.get(
+                    "{{ path('api_search_anime_criteria') }}",
+                    { criteria : formCriteria },
+                    ajaxSearchAnimesCriteria
+                );
+            });
+
+            
+            function ajaxSearchAnimesCriteria(animes) {
+                console.log(animes);
+                // if (animes.length > 0) {
+                //     for(const anime of animes) {
+                //         // Permet d'affecter une url avec le path de twig dynamiquement avec javascript
+                //         let url = '{{ path("anime_show", {slug: 'replace_this_anime_slug'}) }}';
+                //         url = url.replace("replace_this_anime_slug", anime.slug);
+
+                //         var $link = $("<a />").attr("href", url);
+                //         $link.text(anime.title);
+                //         $link.addClass('text-success')
+                //         $('#search_result').append($link);
+                //     }
+                // } else {
+                //     $('#search_result').append("<span>Aucun anime trouvé</span>");
+                // }
+            }
+        });
     </script>
 {% endblock %}

@@ -43,31 +43,32 @@ class AnimeRepository extends ServiceEntityRepository
     public function searchAnime($criteria)
     {
         $query = $this->createQueryBuilder('a');
+                    //   ->select('a.title', 'a.slug', 'a.image');
         // cherche un titre dans la bdd anime contenant un critère à rechercher
-        if ($criteria['title']) {
+        if (!empty($criteria['title'])) {
             $query->andWhere('a.title LIKE :title OR a.alternative_title LIKE :title')
                   ->setParameter('title' , '%'. $criteria['title'] .'%');
         }
 
         // ajouter une option vide par default sur les formulaire pour ensuite ne pas rechercher si la valeur est vide
-        if($criteria['type']) {
+        if(!empty($criteria['type'])) {
             $query->andWhere('a.type = :type')
-                    ->setParameter('type' , $criteria['type']->getId());
+                    ->setParameter('type' , $this->getTypeOf($criteria['type']));
         }
 
-        if($criteria['status']) {
+        if(!empty($criteria['status'])) {
             $query->andWhere('a.status = :status')
-                    ->setParameter('status' , $criteria['status']->getId());
+                    ->setParameter('status' , $this->getTypeOf($criteria['status']));
         }
 
-        if($criteria['kind']) {
+        if(!empty($criteria['kind'])) {
             // J'ai réglé le problème en concaténant le nom du parametre (:k) avec un index ($i) qui change à chaque fin de boucle.
             // et en mettant en place la jointure dans la boucle
             for ($i=0; $i < count($criteria['kind']); $i++) {
                 $k = 'k'.$i;
                 $query->leftJoin('a.kind', $k);
                 $query->andWhere($query->expr()->eq($k, ':'.$k))
-                      ->setParameter($k, $criteria['kind'][$i]->getId());
+                      ->setParameter($k, $this->getTypeOf($criteria['kind'][$i]));
             }
 
             // Continuer de rechercher une solution sans devoir créer plusieurs jointures
@@ -80,26 +81,26 @@ class AnimeRepository extends ServiceEntityRepository
             
         }
 
-        if($criteria['publishedMin']) {
+        if(!empty($criteria['publishedMin'])) {
             $query->andWhere('a.published >= :min')
                     ->setParameter('min' , $criteria['publishedMin']);
         }
-        if($criteria['publishedMax']) {
+        if(!empty($criteria['publishedMax'])) {
             $query->andWhere('a.published <= :max')
                     ->setParameter('max' , $criteria['publishedMax']);
         }
 
-        if($criteria['author']) {
+        if(!empty($criteria['author'])) {
             $query->andWhere('a.author LIKE :author')
                   ->setParameter('author' , '%' .$criteria['author']. '%');
         }
 
-        if($criteria['country']) {
+        if(!empty($criteria['country'])) {
             $query->andWhere('a.country = :country')
                   ->setParameter('country' , $criteria['country']);
         }
 
-        return $query->orderBy('a.title', 'ASC')->getQuery();
+        return $query->orderBy('a.title', 'ASC')->getQuery()->getResult();
     }
 
     public function findAnimeTitle($title)
@@ -113,6 +114,16 @@ class AnimeRepository extends ServiceEntityRepository
         }
         // Revoir l'ordre des elements
         return $query->orderBy('a.title', 'ASC')->setMaxResults(10)->getQuery()->getResult();
+    }
+
+    public function getTypeOf($criteria)
+    {
+        // si c'est une chainef
+        if(is_string($criteria)) {
+            return $criteria;
+        }
+        // si c'est un objet
+        return $criteria->getId();
     }
 
     // /**
