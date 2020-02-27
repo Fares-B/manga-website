@@ -72,7 +72,7 @@
                             if(inputValue === "") $('#search_result').empty();
                             else if(inputValue.length >= 1) {
                                 $('#search_result').empty(); // vide le contenu de la div
-                                $.post(
+                                $.get(
                                     "{{ path('api_search_anime_title') }}",
                                     { title : inputValue },
                                     ajaxSearchAnimesTitle
