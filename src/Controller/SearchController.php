@@ -33,13 +33,13 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/api/search/anime/criteria", name="api_search_anime_criteria")
+     * @Route("/api/search/anime/criteria", name="api_search_anime_criteria", methods={"GET"})
      * @return Response
      */
     public function searchAnimeCriteria(Request $request)
     {
         $criteria = $request->query->all();
-        $result = $this->animeRepo->searchAnime($criteria);
+        $result = $this->animeRepo->searchAnime($criteria)->getResult();
         return $this->json($result, 200, [], ['groups' => 'api_anime_search']);
     }
 }

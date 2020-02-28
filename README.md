@@ -43,7 +43,7 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migration:migrate
 ```
 
-4.  Ajouter les données nécessaire au bon fonctionnement de l'app (les fixtures)
+4.  Ajouter les données nécessaire au bon fonctionnement de l'app (types, genres, status...)
 ```
 php bin/console doctrine:fixtures:load
 ```
@@ -52,6 +52,8 @@ php bin/console doctrine:fixtures:load
 ```
 php -S localhost:8000 -t public
 ```
+
+6. _Optionnel, dans la barre de navigation, sur l'app, cliquez sur dev fixtures pour ajouter des fausse données_
 
 #### Fin
 

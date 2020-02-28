@@ -100,7 +100,7 @@ class AnimeRepository extends ServiceEntityRepository
                   ->setParameter('country' , $criteria['country']);
         }
 
-        return $query->orderBy('a.title', 'ASC')->getQuery()->getResult();
+        return $query->orderBy('a.title', 'ASC')->getQuery();
     }
 
     public function findAnimeTitle($title)
