@@ -72,7 +72,7 @@ class AnimeController extends AbstractController
             // Ajoute un slug (url friendly) à notre classe anime
             $slugify = new Slugify();
             $anime->setSlug($slugify->slugify($anime->getTitle()));
-            // check si le slug existe dans la base de données
+            // check si le slug existe dans la base de données, pour ne pas avoir 2 liens identique
             $slugExists = $animeRepo->findOneBySlug($anime->getSlug());
 
             if(!$slugExists) {
