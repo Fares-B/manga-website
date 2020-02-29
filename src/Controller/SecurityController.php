@@ -36,6 +36,8 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
 
             $entityManager->flush();
+
+            return $this->redirectToRoute("security_login");
         }
         return $this->render('security/registration.html.twig', [
             'title' => 'Inscription',
@@ -49,18 +51,8 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request)
     {
-        $user = new User();
-        $form = $this->createForm(LoginType::class, $user);
-        
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            dd($user);
-        }
-
         return $this->render('security/login.html.twig', [
             'title' => 'Connexion',
-            'form' => $form->createView(),
         ]);
     }
 }

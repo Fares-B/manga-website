@@ -22,7 +22,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Length(max="255", maxMessage="Le pseudo ne doit pas dépasser les 255 caractères)
+     * @Assert\Length(max="255", maxMessage="Le pseudo ne doit pas dépasser les 255 caractères")
      */
     private $username;
 
