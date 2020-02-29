@@ -15,6 +15,7 @@ security:
     role_hierarchy:
         # le moderateur hérite d'un utilisateur
         ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATOR
 
     firewalls:
         dev:
