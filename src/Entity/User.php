@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="the username already have an account!")
+ * @UniqueEntity(fields={"username"}, message="{{ value }} n'est pas disponible, veuillez choisir un autre pseudo.")
  */
 class User implements UserInterface
 {
@@ -22,6 +22,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(max="255", maxMessage="Le pseudo ne doit pas dépasser les 255 caractères)
      */
     private $username;
 
@@ -37,6 +38,9 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas tapé le même mot de passe")
+     */
     private $confirm_password;
 
     public function __construct()

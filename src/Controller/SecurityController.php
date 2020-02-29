@@ -8,6 +8,7 @@ use App\Form\Security\RegistrationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
@@ -15,7 +16,7 @@ class SecurityController extends AbstractController
      * Inscription
      * @Route("/registration", name="security_registration")
      */
-    public function registration(Request $request)
+    public function registration(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
@@ -23,6 +24,11 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+
+            $user->setPassword($hash);
+
             $user->setRoles($user->getRoles());
 
             $entityManager = $this->getDoctrine()->getManager();
