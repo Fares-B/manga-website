@@ -17,21 +17,42 @@
                 <th scope="col">ID</th>
                 <th scope="col">Nom d'utilisateur</th>
                 <th scope="col">Role</th>
+                <th scope="col">Edit Roles</th>
                 <th scope="col">Suprimer</th>
             </tr>
         </thead>
     {% for user in users %}
         {% if user.roles[0] != 'ROLE_ADMIN' %}
+
+            {% set moderator = user.roles[0] == 'ROLE_MODERATOR' %}
+
             <tr class="table-primary">
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.roles | first }}</td>
                 <td>
-                    <a href="{{ path("admin_user_delete", {id: user.id}) }}">
+                    {% if moderator %}
                         <i class="material-icons">
-                            delete
+                            grade
                         </i>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path("admin_user_change_role", {id: user.id}) }}">
+                        {% if moderator %}
+                            downgrade
+                        {% else %}
+                            upgrade
+                        {% endif %}
                     </a>
+                </td>
+                <td>
+                    {% if not moderator %}
+                        <a href="{{ path("admin_user_delete", {id: user.id}) }}">
+                            <i class="material-icons">
+                                delete
+                            </i>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endif %}

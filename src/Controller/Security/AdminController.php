@@ -50,4 +50,28 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_users');
     }
+
+    /**
+     * Change le role d'un utilisateur
+     * @Route("/admin/user/{id}/roles", name="admin_user_change_role")
+     */
+    public function changeRoles(User $user)
+    {
+        $moderator = "ROLE_MODERATOR";
+        // si le role moderateur existe déjà dans les roles alorse on l'efface
+        if(in_array($moderator, $user->getRoles())) {
+            $user->setRoles(["ROLE_USER"]);
+        }
+        // sinon on l'ajoute
+        else {
+            $user->setRoles([$moderator]);
+        }
+
+        // enregistrement dans la bdd
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_users');
+    }
 }
