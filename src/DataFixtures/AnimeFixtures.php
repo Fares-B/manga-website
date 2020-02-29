@@ -4,10 +4,19 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AnimeFixtures extends Fixture
 {
     private $manager;
+    private $encoder;
+    private $faker;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+        $this->faker = \Faker\Factory::create('fr_FR');
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -34,16 +43,12 @@ class AnimeFixtures extends Fixture
         $this->addConfig($formats, 'App\Entity\Episode\Format');
 
         // User
+        // 1 admin et 1 moderateur
+        $users = [['user' => 'admin', 'password' => '123456', 'roles' => ["ROLE_ADMIN"]], ['user' => 'modo', 'password' => '123456', 'roles' => ["ROLE_MODERATOR"]]];
         // ne marche pas pour la connexion car il faut passer un mot de passe cypter
-        $users = [['user' => 'admin', 'password' => '123456', 'roles' => ["ROLE_ADMIN"]], ['user' => 'modo', '123456' => 'moderateur', 'roles' => ["ROLE_MODERATOR"]]];
-        foreach ($users as $usr) {
-            $user = new \App\Entity\User;
-            $user->setUsername($usr['user']);
-            $user->setPassword($usr['password']);
-            $user->setRoles($usr['roles']);
-            $this->manager->persist($user);
-        }
-        // Enregistrer les configurations | non fictif
+        $users = $this->createUsers($users, 100);
+        $this->addUsers($users, 'App\Entity\User');
+        // Enregistrer les configurations | non fictif sauf pour users
         $this->manager->flush();
     }
 
@@ -60,5 +65,43 @@ class AnimeFixtures extends Fixture
 
             $this->manager->persist($obj);
         }
+    }
+
+    
+    /**
+     * Créer des utilisateur fictif
+     * @return void
+     */
+    private function addUsers($users, $className): void
+    {
+        foreach ($users as $usr) {
+            $user = new $className;
+            $user->setUsername($usr['user']);
+            // hash le mot de passe
+            $hash = $this->encoder->encodePassword($user, $usr['password']);
+            $user->setPassword($hash);
+            $user->setRoles($usr['roles']);
+            if(isset($usr['createdAt'])) {
+                $user->setCreatedAt($usr['createdAt']);
+            }
+            $this->manager->persist($user);
+        }
+    }
+
+    /**
+     * Ajoute des utilisateur
+     * @return array
+     */
+    private function createUsers($users = [], $userMax = 10): array
+    {
+        for ($i=0; $i < $userMax; $i++) { 
+            $users[] = [
+                'user' => $this->faker->userName(),
+                'password' => '123456',
+                'roles' => ["ROLE_USER"],
+                'createdAt' => $this->faker->dateTimeBetween('-5 years')
+            ];
+        }
+        return $users;
     }
 }

@@ -43,9 +43,14 @@ class User implements UserInterface
      */
     private $confirm_password;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct()
     {
-        // $this->setCreatedAt(new \DateTime);
+        $this->setCreatedAt(new \DateTime);
     }
 
     public function getId(): ?int
@@ -131,5 +136,17 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }
