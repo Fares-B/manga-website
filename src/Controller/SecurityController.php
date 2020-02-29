@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\Security\LoginType;
 use App\Form\Security\RegistrationType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,10 +48,16 @@ class SecurityController extends AbstractController
      * Connexion
      * @Route("/login", name="security_login")
      */
-    public function login(Request $request)
+    public function login()
     {
         return $this->render('security/login.html.twig', [
             'title' => 'Connexion',
         ]);
     }
+
+    /**
+     * Déconnexion
+     * @Route("/logout", name="security_logout")
+     */
+    public function logout() {}
 }
