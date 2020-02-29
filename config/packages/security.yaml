@@ -11,6 +11,11 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
+
+    role_hierarchy:
+        # le moderateur hérite d'un utilisateur
+        ROLE_MODERATOR: ROLE_USER
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -39,3 +44,5 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/anime/new, roles: ROLE_MODERATOR }
+        - { path: ^/anime/episode/new, roles: ROLE_MODERATOR }

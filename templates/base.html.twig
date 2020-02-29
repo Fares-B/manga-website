@@ -22,27 +22,30 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('anime') }}">Anime</a>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-								<font style="vertical-align: inherit;">
-									<font style="vertical-align: inherit;">Ajouté</font>
-								</font>
-							</a>
-							<div class="dropdown-menu" style="">
-								<a class="dropdown-item" href="{{ path('episode_create') }}">
+						{% if is_granted('ROLE_MODERATOR') %}
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 									<font style="vertical-align: inherit;">
-										<font style="vertical-align: inherit;">Episode
-										</font>
+										<font style="vertical-align: inherit;">Ajouté</font>
 									</font>
 								</a>
-								<a class="dropdown-item" href="{{ path('anime_create') }}">
-									<font style="vertical-align: inherit;">
-										<font style="vertical-align: inherit;">Anime
+								<div class="dropdown-menu" style="">
+									<a class="dropdown-item" href="{{ path('episode_create') }}">
+										<font style="vertical-align: inherit;">
+											<font style="vertical-align: inherit;">Episode
+											</font>
 										</font>
-									</font>
-								</a>
-							</div>
-						</li>
+									</a>
+									<a class="dropdown-item" href="{{ path('anime_create') }}">
+										<font style="vertical-align: inherit;">
+											<font style="vertical-align: inherit;">Anime
+											</font>
+										</font>
+									</a>
+								</div>
+							</li>
+						{% endif %}
+
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('load_fixtures') }}">Dev fixtures</a>
 						</li>

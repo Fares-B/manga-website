@@ -34,11 +34,13 @@ class AnimeFixtures extends Fixture
         $this->addConfig($formats, 'App\Entity\Episode\Format');
 
         // User
-        $users = ['admin' => 'admin', 'Fares' => 'fares'];
-        foreach ($users as $name => $password) {
+        // ne marche pas pour la connexion car il faut passer un mot de passe cypter
+        $users = [['user' => 'admin', 'password' => '123456', 'roles' => ["ROLE_ADMIN"]], ['user' => 'modo', '123456' => 'moderateur', 'roles' => ["ROLE_MODERATOR"]]];
+        foreach ($users as $usr) {
             $user = new \App\Entity\User;
-            $user->setUsername($name);
-            $user->setPassword($password);
+            $user->setUsername($usr['user']);
+            $user->setPassword($usr['password']);
+            $user->setRoles($usr['roles']);
             $this->manager->persist($user);
         }
         // Enregistrer les configurations | non fictif
