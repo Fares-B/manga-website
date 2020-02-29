@@ -23,10 +23,10 @@ DATABASE_URL=mysql://user_name:password@127.0.0.1:3306/name_of_database?serverVe
 ### Wamp
 + Lancé wamp server et **c'est tout !**
 
-### Powershell (terminal - cmd)
+### Terminal (powershell ou git bash)
 + Ouvrir le terminal dans le dossier cloné
 
-_exemple de méthode: faire un maj + clic-droit dans le dossier puis ouvrir avec powershell_
+_exemple de méthode: faire un maj + clic-droit dans le dossier puis ouvrir avec powershell (ou git bash)_
 
 1.  Installer les dépendances nécessaire pour l'utilisation de l'application, grâce à la ligne de commande suivante
 ```
@@ -53,7 +53,7 @@ php bin/console doctrine:fixtures:load
 php -S localhost:8000 -t public
 ```
 
-6. _Optionnel, dans la barre de navigation, sur l'app, cliquez sur dev fixtures pour ajouter des fausse données_
+6. _Optionnel, dans la barre de navigation, sur l'app, cliquez sur dev fixtures pour ajouter des fausses données_
 
 #### Fin
 
