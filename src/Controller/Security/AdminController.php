@@ -24,11 +24,11 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/user", name="admin_users")
      */
-    public function userEdit(UserRepository $repo, PaginatorInterface $paginator, Request $request)
+    public function userEdit(UserRepository $repo, PaginatorInterface $paginator, Request $request, $page = ['page' => 1])
     {
         $users = $paginator->paginate(
             $repo->findAllQuery(),
-            $request->query->getInt('page', 1), /*numero de la page*/
+            $request->query->getInt('page', $page['page']), /*numero de la page*/
             10 // limit par page
         );
 
@@ -42,20 +42,21 @@ class AdminController extends AbstractController
      * Supprime un utilisateur ou moderateur
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
      */
-    public function userDelete(User $user)
+    public function userDelete(User $user, Request $request)
     {
+        $page = $this->getPageInRequestReferer($request);
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
         $em->flush();
 
-        return $this->redirectToRoute('admin_users');
+        return $this->redirectToRoute('admin_users', ['page' => $page]);
     }
 
     /**
      * Change le role d'un utilisateur
      * @Route("/admin/user/{id}/roles", name="admin_user_change_role")
      */
-    public function changeRoles(User $user)
+    public function changeRoles(User $user, Request $request)
     {
         $moderator = "ROLE_MODERATOR";
         // si le role moderateur existe déjà dans les roles alorse on l'efface
@@ -72,6 +73,23 @@ class AdminController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('admin_users');
+        $page = $this->getPageInRequestReferer($request);
+
+        return $this->redirectToRoute('admin_users', ['page' => $page]);
+    }
+
+    /**
+     * Récupére l'id de la page referer
+     */
+    private function getPageInRequestReferer($request): int
+    {
+        $referer = filter_var($request->headers->get('referer'), FILTER_SANITIZE_URL);
+
+        parse_str(parse_url($referer, PHP_URL_QUERY), $queries);
+
+        if(isset($queries['page'])) {
+            return (int)$queries['page'];
+        }
+        return 1;
     }
 }
