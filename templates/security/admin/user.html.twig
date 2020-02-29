@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block head %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<h3>{{ title }}</h3>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nom d'utilisateur</th>
+                <th scope="col">Role</th>
+                <th scope="col">Suprimer</th>
+            </tr>
+        </thead>
+    {% for user in users %}
+        {% if user.roles[0] != 'ROLE_ADMIN' %}
+            <tr class="table-primary">
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.roles | first }}</td>
+                <td>
+                    <a href="{{ path("admin_user_delete", {id: user.id}) }}">
+                        <i class="material-icons">
+                            delete
+                        </i>
+                    </a>
+                </td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    
+    </table>
+
+    
+    <div class="pagination">
+        {{ knp_pagination_render(users) }}
+    </div>
+{% endblock %}
+

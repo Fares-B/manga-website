@@ -45,5 +45,9 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # Connecter en tant qu'anonyme
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/registration, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Connecter en tant que moderateur
         - { path: ^/anime/new, roles: ROLE_MODERATOR }
         - { path: ^/anime/episode/new, roles: ROLE_MODERATOR }

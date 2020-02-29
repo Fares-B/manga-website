@@ -36,6 +36,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    /**
+     * Utiliser dans le controller AdminController pour générer une pagination.
+     * @return Query
+     */
+    public function findAllQuery()
+    {
+        $query = $this->createQueryBuilder('u')
+            ->getQuery();
+        return $query;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
