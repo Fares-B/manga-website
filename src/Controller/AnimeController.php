@@ -8,10 +8,10 @@ use App\Repository\Anime\AnimeRepository;
 use App\Form\SearchAnimeType;
 
 use Cocur\Slugify\Slugify;
-
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -54,6 +54,7 @@ class AnimeController extends AbstractController
     /**
      * Formulaire pour créer un nouveau animé
      * 
+     * @IsGranted("ROLE_MODERATOR")
      * @Route("/anime/new", name="anime_create")
      * @Route("/anime/{slug}/edit", name="anime_edit")
      */

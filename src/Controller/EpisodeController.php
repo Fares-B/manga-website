@@ -22,6 +22,7 @@ class EpisodeController extends AbstractController
      * 2eme route creation d'un episode
      * 3eme editer un episode
      * 
+     * @IsGranted("ROLE_MODERATOR")
      * @Route("/anime/episode/new?{id}", name="episode_create")
      * @Route("/anime/episode/new", name="episode_create")
      * @Route("/anime/episode/{slug}/edit", name="episode_edit")
@@ -72,6 +73,7 @@ class EpisodeController extends AbstractController
     /**
      * Supprime un episode
      * 
+     * @IsGranted("ROLE_MODERATOR")
      * @Route("/anime/episode/{slug}/delete", name="episode_delete")
      */
     public function deleteEpisode(Episode $episode)

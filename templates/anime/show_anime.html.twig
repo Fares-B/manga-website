@@ -9,16 +9,18 @@
             <div class="col-9">
                 <h2>{{ anime.title }}</h2>
             </div>
-            <div class="row col-3">
-                <div class="col">
-                    <a href="{{ path('anime_edit', {slug: anime.slug}) }}">Edit anime</a>
+            {% if is_granted("ROLE_MODERATOR") %}
+                <div class="row col-3">
+                    <div class="col">
+                        <a href="{{ path('anime_edit', {slug: anime.slug}) }}">Edit anime</a>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('episode_create', {id: anime.id}) }}">Add episode</a>
+                    </div>
                 </div>
-                <div class="col">
-                    <a href="{{ path('episode_create', {id: anime.id}) }}">Add episode</a>
-                </div>
-            </div>
+            {% endif %}
         </div>
-            <br>
+        <br>
         <div class="form-group"><img src="{{ anime.image }}" alt="{{ anime.title }}" class="img-responsive" /></div>
         <div>date de parution : {{ anime.published }}</div>
         <div>synopsis : {{ anime.content }}</div>

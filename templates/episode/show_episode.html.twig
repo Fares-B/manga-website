@@ -18,14 +18,17 @@
                         <span>{{ title }}</span>
                     </h4>
                 </div>
-                <div class="row col-3">
-                    <div class="col">
-                        <a href="{{ path('episode_edit', {slug: episode.slug}) }}">Edit</a>
+                {% if is_granted("ROLE_MODERATOR") %}
+                    <div class="row col-3">
+                        <div class="col">
+                            <a href="{{ path('episode_edit', {slug: episode.slug}) }}">Edit</a>
+                        </div>
+                        <div class="col">
+                            <a href="{{ path("episode_delete", {slug: episode.slug}) }}">Delete</a>
+                        </div>
                     </div>
-                    <div class="col">
-                        <a href="{{ path("episode_delete", {slug: episode.slug}) }}">Delete</a>
-                    </div>
-                </div>
+                {% endif %}
+                
             </div>
 
             <div>
