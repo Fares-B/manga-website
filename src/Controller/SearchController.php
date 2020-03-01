@@ -21,7 +21,7 @@ class SearchController extends AbstractController
     }
     /**
      * Retourne Du JSON, utiliser avec des requetes ajax (barre de recherche du site)
-     * methode => POST
+     * methode => GET
      * @Route("/api/search/anime/title", name="api_search_anime_title")
      * @return Response
      */
@@ -33,6 +33,8 @@ class SearchController extends AbstractController
     }
 
     /**
+     * Recherche un anime avec des critères (type, status, date...)
+     * method => GET
      * @Route("/api/search/anime/criteria", name="api_search_anime_criteria", methods={"GET"})
      * @return Response
      */

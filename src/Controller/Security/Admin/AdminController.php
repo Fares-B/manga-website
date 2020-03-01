@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Security;
+namespace App\Controller\Security\Admin;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -32,7 +32,7 @@ class AdminController extends AbstractController
             10 // limit par page
         );
 
-        return $this->render('security/admin/user.html.twig', [
+        return $this->render('security/admin/users/index.html.twig', [
             'title' => 'Administration utilisateur',
             'users' => $users,
         ]);

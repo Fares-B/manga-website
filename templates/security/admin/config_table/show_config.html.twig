@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block head %}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<table class="table table-hover">
+		<h5>{{ title }}</h5>
+		<thead>
+			<tr class="table-default">
+				<th scope="col">ID</th>
+				<th scope="col">Name</th>
+				<th scope="col">Suprimer</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for col in table %}
+				<tr class="table-primary">
+					<td>{{ col.id }}</td>
+					<td>{{ col.name }}</td>
+					<td>
+					{# Ne suprime pas les items appartenant déjà à une entity (clé étrangère) #}
+					{% if col.animes is defined and col.animes|length == 0 %}
+						<a href="{{ path('security_admin_config_table_delete_item', {parent: parent, classname: classname, id:col.id}) }}">
+							drop
+						</a>
+					{% elseif col.episodes is defined and col.episodes|length == 0 %}
+						<a href="{{ path('security_admin_config_table_delete_item', {parent: parent, classname: classname, id:col.id}) }}">
+							drop
+						</a>
+					{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			<tr class="table-primary">
+				<form action="{{ path("security_admin_config_table_new_item", {parent: parent, classname: classname}) }}" method="GET">
+					<td></td>
+					<td class="form-group">
+						<input class="form-control" type="text" name="name" placeholder="Ajouter une option pour {{ classname }}"/>
+					</td>
+					<td>
+						<button class="btn btn-success" type="submit">Ajouter</button>
+					</td>
+				</form>
+			</tr>
+		</tbody>
+	</table>
+{% endblock %}

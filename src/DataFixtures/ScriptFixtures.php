@@ -42,7 +42,7 @@ class FixturesAnimesEpisodes  {
             $stmt->execute($anime);
             $lastId = $this->pdo->lastInsertId();
             // créer des episodes
-            $episdes = $this->generateEpisodes($anime, $lastId);
+            $this->generateEpisodes($anime, $lastId);
         }
     }
 
@@ -131,7 +131,7 @@ class FixturesAnimesEpisodes  {
      * Pour le slug de l'épisode
      * @return string
      */
-    private function getFormat($id)
+    private function getFormat($id): string
     {
         $format = ["", "Episode","Film","OAV","Spécial","Chapitre","Opening","Ending","PV"];
         return $format[$id];

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block head %}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<h3>{{ title }}</h3>
+    <ul>
+        {% for key, entity in configs %}
+            <h4>{{ key }}</h4>
+            <ul>
+                {% for item in entity %}
+                    <li>
+                        <a href="{{ path("security_admin_config_table_one", {parent: key, classname: item}) }}">{{ item }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
