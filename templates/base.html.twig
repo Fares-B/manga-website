@@ -85,7 +85,6 @@
   				<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 				{% block javascripts %}{% endblock %}
-                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 				<script>
 					// requete ajax pour recherche un anime dans la barre de recherche
                     $(() => {
@@ -94,7 +93,6 @@
                             // trouver une manière de ne pas faire d'appel ajax si  ja n'avais pas de reponse favorable avant.                        
                             if(inputValue === "") $('#search_result').empty();
                             else if(inputValue.length >= 1) {
-                                $('#search_result').empty(); // vide le contenu de la div
                                 $.get(
                                     "{{ path('api_search_anime_title') }}",
                                     { title : inputValue },
@@ -102,7 +100,9 @@
                                 );
                             }
                         });
-                        function ajaxSearchAnimesTitle(animes) {
+
+                        function ajaxSearchAnimesTitle(animes) {	
+                            $('#search_result').empty(); // vide le contenu de la div
                             if (animes.length > 0) {
                                 for(const anime of animes) {
                                     // Permet d'affecter une url avec le path de twig dynamiquement avec javascript
