@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Anime\Anime;
-use App\Entity\Episode\Episode;
 use App\Form\EpisodeType;
-
 use Cocur\Slugify\Slugify;
+use App\Entity\Anime\Anime;
+
+use App\Entity\Episode\Episode;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EpisodeController extends AbstractController
