@@ -6,6 +6,7 @@ use App\Entity\Anime\Anime;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,24 +27,24 @@ class Comment
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="comments")
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255, maxMessage="Le commentaire ne peut depasser 255 caractères")
      */
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Anime\Anime", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Anime\Anime", inversedBy="comments")
      */
     private $anime;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
-        $this->anime = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime);
     }
 
     public function getId(): ?int
@@ -63,32 +64,6 @@ class Comment
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
-
-        return $this;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
@@ -101,28 +76,26 @@ class Comment
         return $this;
     }
 
-    /**
-     * @return Collection|Anime[]
-     */
-    public function getAnime(): Collection
+    public function getUser(): ?User
     {
-        return $this->anime;
+        return $this->user;
     }
 
-    public function addAnime(Anime $anime): self
+    public function setUser(?User $user): self
     {
-        if (!$this->anime->contains($anime)) {
-            $this->anime[] = $anime;
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeAnime(Anime $anime): self
+    public function getAnime(): ?Anime
     {
-        if ($this->anime->contains($anime)) {
-            $this->anime->removeElement($anime);
-        }
+        return $this->anime;
+    }
+
+    public function setAnime(?Anime $anime): self
+    {
+        $this->anime = $anime;
 
         return $this;
     }

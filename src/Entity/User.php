@@ -52,7 +52,7 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="user")
      */
     private $comments;
 
@@ -171,7 +171,7 @@ class User implements UserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->addUser($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -181,7 +181,10 @@ class User implements UserInterface
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
-            $comment->removeUser($this);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
         }
 
         return $this;

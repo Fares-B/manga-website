@@ -149,15 +149,15 @@ class Anime
     private $episodes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="anime")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="anime")
      */
     private $comments;
 
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime);
         $this->kind = new ArrayCollection();
         $this->episodes = new ArrayCollection();
-        $this->setCreatedAt(new \DateTime);
         $this->comments = new ArrayCollection();
     }
 
@@ -381,7 +381,7 @@ class Anime
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->addAnime($this);
+            $comment->setAnime($this);
         }
 
         return $this;
@@ -391,7 +391,10 @@ class Anime
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
-            $comment->removeAnime($this);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAnime() === $this) {
+                $comment->setAnime(null);
+            }
         }
 
         return $this;
