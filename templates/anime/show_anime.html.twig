@@ -49,5 +49,26 @@
         {% endfor %}
         </ul>
     </div>
+    <div class="comments">
+        <li>{{ anime.comments|length }} commentaires</li>
+        {% if is_granted('ROLE_USER') %}
+            {{ form_start(form) }}
+                {{ form_row(form.content, {'attr': {'placeholder': 'Votre commentaire'}}) }}
+                <button class="btn btn-success" type="submit">Commentez</button>
+            {{ form_end(form) }}
+        {% else %}
+            <p>il est nécessaire de se <a href="{{ path('security_login') }}">connecter</a> pour pouvoir commenter</p>
+        {% endif %}
+        {% for comment in anime.comments|reverse %}
+            <hr>
+            <div class="comment">
+                <h6 class="user_name">
+                    <a href="#profile">{{ comment.user.username}}</a>
+                    <span>publié le {{ comment.createdAt | date('d/m/Y à H:i:s') }}</span>
+                </h6>
+                <span class="content">{{ comment.content }}</span>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

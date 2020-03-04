@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Form\AnimeType;
-use App\Entity\Anime\Anime;
-use App\Repository\Anime\AnimeRepository;
-use App\Form\SearchAnimeType;
-
 use Cocur\Slugify\Slugify;
+use App\Entity\Anime\Anime;
+use App\Form\SearchAnimeType;
+use App\Entity\Comment\Comment;
+
+use App\Form\Comment\CommentType;
+use App\Repository\Anime\AnimeRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -102,10 +105,28 @@ class AnimeController extends AbstractController
      * 
      * @Route("/anime/{slug}", name="anime_show")
      */
-    public function showAnime(Anime $anime) //param converter
+    public function showAnime(Anime $anime, Request $request, ?UserInterface $user) //param converter
     {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Si l'utilisateur est connecté
+            if($user) {
+                $comment->setUser($user);
+                $comment->setAnime($anime);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($comment);
+                $entityManager->flush();
+            }
+        }
         return $this->render('anime/show_anime.html.twig', [
-            'anime' => $anime // send 1 anime
+            'anime' => $anime, // send 1 anime
+            'form' => $form->createView()
         ]);
     }
 }
