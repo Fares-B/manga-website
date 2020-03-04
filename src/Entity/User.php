@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Comment\Comment;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,9 +51,15 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="user")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime);
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +155,34 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            $comment->removeUser($this);
+        }
 
         return $this;
     }

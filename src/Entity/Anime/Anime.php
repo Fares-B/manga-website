@@ -2,6 +2,7 @@
 
 namespace App\Entity\Anime;
 
+use App\Entity\Comment\Comment;
 use App\Entity\Episode\Episode;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -147,11 +148,17 @@ class Anime
      */
     private $episodes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Comment\Comment", mappedBy="anime")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->kind = new ArrayCollection();
         $this->episodes = new ArrayCollection();
         $this->setCreatedAt(new \DateTime);
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -360,5 +367,33 @@ class Anime
             }
         }
         return $count;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->addAnime($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            $comment->removeAnime($this);
+        }
+
+        return $this;
     }
 }
