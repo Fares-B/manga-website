@@ -22,20 +22,20 @@
         </div>
         <br>
         <div class="form-group"><img src="{{ anime.image }}" alt="{{ anime.title }}" class="img-responsive" /></div>
-        <div>date de parution : {{ anime.published }}</div>
+        <div>date de parution : <a href="{{ path('anime') }}?publishedMin={{ anime.published }}&publishedMax={{ anime.published }}">{{ anime.published }}</a></div>
         <div>synopsis : {{ anime.content }}</div>
-        <div>type : {{ anime.type.name }}</div>
+        <div>type : <a href="{{ path('anime') }}?type={{ anime.type.id }}">{{ anime.type.name }}</a></div>
         <div>genre : 
             {% for kind in anime.kind %}
-                {{ kind.name }}{% if not loop.last %}, {% endif %}
+                <a href="{{ path('anime') }}?kind={{ kind.id }}">{{ kind.name }}</a>
+                {% if not loop.last %}, {% endif %}
             {% endfor %}
         </div>
-        {# <div>genre : {{ anime.kind.name | join(', ') }}</div> #}
-        <div>status : {{ anime.status.name }}</div>
-        <div>auteur : {{ anime.author }}</div>
-        <div>titre alternatif : {{ anime.alternativeTitle }}</div>
+        <div>status : <a href="{{ path('anime') }}?status={{ anime.status.id }}">{{ anime.status.name }}</a></div>
+        <div>auteur : <a href="{{ path('anime') }}?author={{ anime.author }}">{{ anime.author }}</a></div>
+        <div>titre alternatif : <a href="{{ path('anime') }}?title={{ anime.alternativeTitle }}">{{ anime.alternativeTitle }}</a></div>
         {# <div>studio d'animation : {{ anime.studio }}</div> #}
-        <div>pays : {{ anime.country }}</div>
+        <div>pays : <a href="{{ path('anime') }}?country={{ anime.country }}">{{ anime.country }}</a></div>
         {# <div>licencié : {{ anime.licence }}</div>             #}
     </div>
     <div class="list-episode">
