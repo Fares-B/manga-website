@@ -24,7 +24,13 @@ class CommentController extends AbstractController
     {
         if(!$comment) {
             $comment = new Comment();
+            $animeSlug = "bleach";
         }
+        // temporaire
+        else {
+            $animeSlug = $comment->getAnime()->getSlug();
+        }
+
         
         // $form = $this->createForm(CommentType::class, $comment);
 
@@ -34,15 +40,22 @@ class CommentController extends AbstractController
         //     // Si l'utilisateur est connecté
         //     if($user) {
         //         $comment->setUser($user);
-        //         $comment->setAnime($anime);
-
+                // $comment->setAnime($anime);
+                // // si c'est en mode edit
+                // if($comment->getId()) {
+                //     $comment->setUpdatedAt(new \DateTime);
+                // }   
         //         $entityManager = $this->getDoctrine()->getManager();
         //         $entityManager->persist($comment);
         //         $entityManager->flush();
         //     }
         // }
 
-        return $this->redirectToRoute("anime_show", [$anime->getSlug()]);
+        // ajouter un champ updatedAt pour la table comment et update se champ quand on edit
+
+        return $this->redirectToRoute("anime_show", [
+            'slug' => $animeSlug,
+        ]);
         // return $this->render('comment/comment/index.html.twig', [
         //     'controller_name' => 'CommentController',
         // ]);

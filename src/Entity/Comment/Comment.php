@@ -43,6 +43,11 @@ class Comment
      */
     private $anime;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime);
@@ -117,5 +122,17 @@ class Comment
         }
         return false;
         // return app.user == comment.user or (is_granted('ROLE_MODERATOR') and ('ROLE_MODERATOR' not in comment.user.roles));
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }
