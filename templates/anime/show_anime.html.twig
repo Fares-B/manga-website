@@ -70,7 +70,7 @@
                 {# si l'utilisateur à le droit d'edit et supprimer #}
                 {% if comment.isAuthorizedEdit(app.user) %}
                     <a href="{{ path("edit_comment", {id:comment.id}) }}">editer</a>
-                    <a class="text-danger" href="#suprimerComment">supprimer</a>
+                    <a class="text-danger" href="{{ path("delete_comment", {id: comment.id}) }}">supprimer</a>
                 {% endif %}
             </div>
         {% endfor %}
