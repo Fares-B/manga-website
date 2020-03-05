@@ -67,8 +67,11 @@
                     <span>publié le {{ comment.createdAt | date('d/m/Y à H:i:s') }}</span>
                 </h6>
                 <span class="content">{{ comment.content }}</span>
-                <a href="{{ path("edit_comment", {id:comment.id}) }}">editer</a>
-                <a class="text-danger" href="#suprimerComment">supprimer</a>
+                {# si l'utilisateur à le droit d'edit et supprimer #}
+                {% if comment.isAuthorizedEdit(app.user) %}
+                    <a href="{{ path("edit_comment", {id:comment.id}) }}">editer</a>
+                    <a class="text-danger" href="#suprimerComment">supprimer</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

@@ -6,6 +6,7 @@ use App\Entity\Anime\Anime;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -98,5 +99,23 @@ class Comment
         $this->anime = $anime;
 
         return $this;
+    }
+
+    public function isAuthorizedEdit(?UserInterface $user): bool
+    {
+        // si l'utilisateur est connecté
+        if($user) {
+            $userComment = $this->getUser();
+            // si c'est son commentaire
+            if($userComment === $user) {
+                return true;
+            }
+            // si possède le role moderateur et que le proprietaire du commentaire n'est pas un moderateur
+            if(in_array('ROLE_MODERATOR', $user->getRoles()) && !in_array('ROLE_MODERATOR', $userComment->getRoles()) && !in_array('ROLE_ADMIN', $userComment->getRoles())) {
+                return true;
+            }
+        }
+        return false;
+        // return app.user == comment.user or (is_granted('ROLE_MODERATOR') and ('ROLE_MODERATOR' not in comment.user.roles));
     }
 }
