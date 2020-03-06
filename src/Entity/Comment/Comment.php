@@ -116,7 +116,7 @@ class Comment
                 return true;
             }
             // si possède le role moderateur et que le proprietaire du commentaire n'est pas un moderateur
-            if(in_array('ROLE_MODERATOR', $user->getRoles()) && !in_array('ROLE_MODERATOR', $userComment->getRoles()) && !in_array('ROLE_ADMIN', $userComment->getRoles())) {
+            if(in_array('ROLE_MODERATOR', $user->getRoles()) && !in_array('ROLE_MODERATOR', $userComment->getRoles()) /*&& !in_array('ROLE_ADMIN', $userComment->getRoles())*/) {
                 return true;
             }
         }

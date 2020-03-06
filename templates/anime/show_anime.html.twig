@@ -64,12 +64,13 @@
             <div class="comment">
                 <h6 class="user_name">
                     <a href="#profile">{{ comment.user.username}}</a>
-                    <span>publié le {{ comment.createdAt | date('d/m/Y à H:i:s') }}</span>
-                    {% if comment.updatedAt %}
-                        <br>
-                        <span>Edité le : {{ comment.updatedAt | date('d/m/Y à H:i:s') }}</span>
-                    {% endif %}
                 </h6>
+                <span>publié le {{ comment.createdAt | date('d/m/Y à H:i:s') }}</span>
+                {# si l'utilisateur à editer le commentaire #}
+                {% if comment.updatedAt %}
+                    <br>
+                    <span>Edité le : {{ comment.updatedAt | date('d/m/Y à H:i:s') }}</span>
+                {% endif %}
                 <span class="content">{{ comment.content }}</span>
                 {# si l'utilisateur à le droit d'edit et supprimer #}
                 {% if comment.isAuthorizedEdit(app.user) %}
