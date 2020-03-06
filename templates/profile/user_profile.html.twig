@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Profil de {{ user.username }}
+{% endblock %}
+
+{% block body %}
+<h4>
+    Profil de {{ user.username }}
+</h4>
+<div>
+
+    <span>stats : ...</span>
+    
+    <div>
+        <span>commentaires : </span>
+        {% for comment in user.comments|reverse %}
+            <hr>
+            <div class="comment">
+                <h6 class="user_name">
+                    <a href="{{ path('anime_show', {slug: comment.anime.slug}) }}">{{ comment.anime.slug}}</a>
+                </h6>
+                <span>publié le {{ comment.createdAt | date('d/m/Y à H:i:s') }}</span>
+                <span class="content">{{ comment.content }}</span>
+                {# si l'utilisateur à le droit d'edit et supprimer #}
+                {% if comment.isAuthorizedEdit(app.user) %}
+                    <a href="{{ path("edit_comment", {id: comment.id}) }}">editer</a>
+                    <a class="text-danger" href="{{ path("delete_comment", {id: comment.id}) }}">supprimer</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+</div>
+</div>
+{% endblock %}
